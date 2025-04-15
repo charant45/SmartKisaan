@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What to Plant? - Smart Farming Assistant</title>
+    <link rel="stylesheet" href="{% static 'css/crop_suggestion.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🌾</div>
+            <h1>What to Plant?</h1>
+            <p>Get personalized crop suggestions based on your location and conditions</p>
+        </header>
+
+        <div class="card form-card">
+            <h2>Enter Your Details</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="input-icon">🍂</div>
+                    <div class="input-field">
+                        <label for="{{ form.season.id_for_label }}">Season:</label> {{ form.season }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-icon">📍</div>
+                    <div class="input-field">
+                        <label for="{{ form.location.id_for_label }}">Location:</label> {{ form.location }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-icon">🌱</div>
+                    <div class="input-field">
+                        <label for="{{ form.soil_type.id_for_label }}">Soil Type:</label> {{ form.soil_type }}
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span class="btn-icon">🔍</span>
+                    <span>Get Suggestions</span>
+                </button>
+            </form>
+        </div>
+
+        {% if form_submitted %}
+        <div class="results-card">
+            <div class="results-header">
+                <span class="results-icon">🌿</span>
+                <h2>Suggested Crops</h2>
+            </div>
+
+            {% if crops %}
+            <ul class="crop-list">
+                {% for crop in crops %}
+                <li class="crop-item-container">
+                    <div class="crop-item">
+                        <span class="crop-icon">🌱</span>
+                        <span class="crop-name">{{ crop.crop_name }}</span>
+                    </div>
+
+                    <div class="crop-info">
+                        {% if crop.description %}
+                        <div class="crop-details">{{ crop.description }}</div>
+                        {% endif %}
+
+                        <div class="crop-specs">
+                            {% if crop.planting_method %}
+                            <div class="spec-item">
+                                <span class="spec-icon">🌰</span>
+                                <span><strong>Planting:</strong> {{ crop.planting_method }}</span>
+                            </div>
+                            {% endif %} {% if crop.water_requirements %}
+                            <div class="spec-item">
+                                <span class="spec-icon">💧</span>
+                                <span><strong>Water needs:</strong> {{ crop.water_requirements }}</span>
+                            </div>
+                            {% endif %} {% if crop.growth_duration %}
+                            <div class="spec-item">
+                                <span class="spec-icon">⏱️</span>
+                                <span><strong>Growth period:</strong> {{ crop.growth_duration }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <div class="no-results">
+                <span class="no-results-icon">🔍</span>
+                <p>No crops found matching your criteria. Try different parameters or consult with a local agricultural expert.</p>
+            </div>
+            {% endif %}
+
+            <div class="tips">
+                <div class="tips-header">
+                    <span class="tips-icon">💡</span>
+                    <h3>Farming Tips</h3>
+                </div>
+                <p>Remember to check local agricultural advisories for the most up-to-date recommendations for your specific area.</p>
+            </div>
+        </div>
+        {% endif %}
+
+        <footer>
+            <p>Smart Farming Assistant &copy; {% now "Y" %}</p>
+        </footer>
+    </div>
+</body>
+
+</html>

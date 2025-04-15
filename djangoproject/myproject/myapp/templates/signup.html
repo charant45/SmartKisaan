@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="{% static 'myapp/css/signup.css' %}" />
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <img src="{% static 'myapp/images/logo1.png' %}" alt="Smart Market Logo" />
+    </div>
+    <nav>
+      <a href="{% url 'home' %}">Home</a>
+      <a href="#">Buy Products</a>
+      <a href="#">Rent Tools</a>
+      <a href="#">What to plant?</a>
+      <a href="#">When to sell?</a>
+      <a href="{% url 'login' %}">Login</a>
+    
+
+    </nav>
+  </header>
+
+  <div class="auth-container">
+    <h2>Sign Up</h2>
+
+    {% if form.errors %}
+      <div class="form-errors">
+        {% for field in form %}
+          {% for error in field.errors %}
+            <p class="error">{{ error }}</p>
+          {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+          <p class="error">{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="POST" novalidate>
+      {% csrf_token %}
+      {% for field in form %}
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+      {% endfor %}
+      <button type="submit">Sign Up</button>
+    </form>
+
+    <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+  </div>
+
+</body>
+</html>
+
