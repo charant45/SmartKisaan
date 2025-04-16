@@ -28,6 +28,7 @@ class CropSuggestion(models.Model):
     water_requirements = models.CharField(max_length=50, blank=True, null=True)
     growth_duration = models.CharField(max_length=50, blank=True, null=True)
     
+    
     def __str__(self):
         return f"{self.crop_name} - {self.season}, {self.soil_type}"
     

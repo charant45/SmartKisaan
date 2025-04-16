@@ -1,18 +1,20 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+
 :root {
     --primary-color: #2e7d32;
-    --primary-light: #60ad5e;
-    --primary-dark: #005005;
     --secondary-color: #81c784;
     --accent-color: #f9a825;
-    --accent-light: #ffd95b;
-    --accent-dark: #c17900;
     --text-color: #333;
-    --text-light: #666;
     --light-bg: #f5f5f5;
     --card-bg: #ffffff;
-    --border-radius: 12px;
-    --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    --transition: all 0.3s ease;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 * {
@@ -23,101 +25,103 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--light-bg);
+    background: linear-gradient(135deg, #4caf50, #2e7d32);
     color: var(--text-color);
     line-height: 1.6;
-    padding: 20px;
-    background-image: linear-gradient(to bottom, #f5f5f5, #e8f5e9);
+    width: 100%;
     min-height: 100vh;
 }
 
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 
-/* Header Styles */
+/* Style header to be full width */
 
 header {
     text-align: center;
-    margin-bottom: 40px;
-    padding: 20px;
-}
-
-.logo {
-    font-size: 48px;
-    margin-bottom: 10px;
-    animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
+    margin: 0 0 30px 0;
+    /* background: linear-gradient(135deg, #4caf50, #2e7d32); */
+    padding: 30px 0;
+    border-radius: 0;
+    color: rgb(243, 248, 244);
+    /* box-shadow: var(--box-shadow); */
+    width: 100%;
 }
 
 header h1 {
-    color: var(--primary-dark);
     margin-bottom: 10px;
     font-size: 2.5rem;
-    font-weight: 700;
 }
 
 header p {
-    color: var(--text-light);
+    opacity: 0.9;
     font-size: 1.1rem;
 }
 
+.logo {
+    font-size: 42px;
+    margin-bottom: 15px;
+}
 
-/* Card Styles */
+
+/* Make cards have constrained width */
+
+.card,
+.form-card,
+.results-card {
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto 30px auto;
+}
 
 .card {
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-    padding: 30px;
+    padding: 25px;
     margin-bottom: 30px;
-    transition: var(--transition);
+    transition: transform 0.3s ease;
 }
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.form-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 25px;
+    margin-bottom: 30px;
 }
 
 .form-card h2 {
     color: var(--primary-color);
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     text-align: center;
-    font-weight: 600;
+    font-size: 1.5rem;
 }
 
-
-/* Form Styles */
-
 .form-group {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
 }
 
 .input-icon {
     font-size: 24px;
-    margin-right: 15px;
-    color: var(--primary-color);
     width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #e8f5e9;
-    border-radius: 50%;
+    text-align: center;
+    margin-right: 10px;
+    color: var(--primary-color);
 }
 
 .input-field {
@@ -131,20 +135,298 @@ label {
     color: var(--primary-color);
 }
 
-select,
 .form-control {
     width: 100%;
-    padding: 14px;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
     font-size: 16px;
-    transition: var(--transition);
-    background-color: #fafafa;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-select:focus,
 .form-control:focus {
-    border-color: var(--primary-light);
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+}
+
+
+/* Animated Farm Scene Background */
+
+.background-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    opacity: 0.6;
+}
+
+
+/* Farm Elements */
+
+.farm-element {
+    position: absolute;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+
+/* Farmer planting seeds */
+
+.farmer-planting {
+    width: 100px;
+    height: 100px;
+    bottom: 10%;
+    left: 10%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3C!-- Body --%3E%3Cellipse cx='50' cy='70' rx='20' ry='25' fill='%23795548'/%3E%3C!-- Head --%3E%3Ccircle cx='50' cy='35' r='15' fill='%23ffcc80'/%3E%3C!-- Hat --%3E%3Cpath d='M30 35 H70 L65 25 H35 Z' fill='%238d6e63'/%3E%3C!-- Arms --%3E%3Cpath d='M30 50 Q25 60 15 55' stroke='%23795548' stroke-width='5' fill='none'/%3E%3Cpath d='M70 50 Q75 70 85 65' stroke='%23795548' stroke-width='5' fill='none'/%3E%3C!-- Seed bag --%3E%3Crect x='10' y='50' width='10' height='15' fill='%23a1887f'/%3E%3C!-- Seeds --%3E%3Ccircle cx='15' cy='45' r='2' fill='%23ffd54f'/%3E%3Ccircle cx='20' cy='48' r='2' fill='%23ffd54f'/%3E%3Ccircle cx='12' cy='50' r='2' fill='%23ffd54f'/%3E%3C/svg%3E");
+    animation: moveLeftRight 20s infinite alternate ease-in-out, plantSeeds 5s infinite ease-in-out;
+}
+
+
+/* Farmer watering plants */
+
+.farmer-watering {
+    width: 100px;
+    height: 100px;
+    bottom: 60%;
+    right: 15%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3C!-- Body --%3E%3Cellipse cx='50' cy='70' rx='18' ry='25' fill='%23795548'/%3E%3C!-- Head --%3E%3Ccircle cx='50' cy='35' r='15' fill='%23ffd54f'/%3E%3C!-- Hat --%3E%3Cpath d='M30 35 H70 L50 25 Z' fill='%238d6e63'/%3E%3C!-- Arms --%3E%3Cpath d='M30 50 Q20 55 15 50' stroke='%23558b2f' stroke-width='5' fill='none'/%3E%3C!-- Watering can --%3E%3Cpath d='M15 50 L10 60 L25 60 L22 50 Z' fill='%23607d8b'/%3E%3C!-- Water droplets --%3E%3Cpath d='M12 60 Q12 65 15 70' stroke='%2329b6f6' stroke-width='2' fill='none'/%3E%3Cpath d='M18 60 Q18 67 20 73' stroke='%2329b6f6' stroke-width='2' fill='none'/%3E%3Cpath d='M22 60 Q22 63 25 68' stroke='%2329b6f6' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    animation: moveRightLeft 25s infinite alternate ease-in-out, waterPlants 3s infinite;
+}
+
+
+/* Farmer harvesting */
+
+.farmer-harvesting {
+    width: 100px;
+    height: 100px;
+    top: 40%;
+    left: 25%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3C!-- Body --%3E%3Cellipse cx='50' cy='70' rx='20' ry='25' fill='%23795548'/%3E%3C!-- Head --%3E%3Ccircle cx='50' cy='35' r='15' fill='%23a1887f'/%3E%3C!-- Hat --%3E%3Cpath d='M30 35 H70 L50 20 Z' fill='%23ffd54f'/%3E%3C!-- Arms --%3E%3Cpath d='M30 50 Q15 60 10 50' stroke='%23795548' stroke-width='5' fill='none'/%3E%3C!-- Sickle --%3E%3Cpath d='M10 50 Q5 40 15 30' stroke='%23bdbdbd' stroke-width='3' fill='none'/%3E%3C!-- Wheat in hand --%3E%3Cpath d='M70 50 L80 30' stroke='%23cddc39' stroke-width='2' fill='none'/%3E%3Cpath d='M70 50 L85 35' stroke='%23cddc39' stroke-width='2' fill='none'/%3E%3Cpath d='M70 50 L88 40' stroke='%23cddc39' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    animation: harvestCrops 8s infinite ease-in-out, moveUpDown 15s infinite alternate ease-in-out;
+}
+
+
+/* Growing plants */
+
+.crop-field {
+    width: 300px;
+    height: 200px;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-around;
+}
+
+
+/* Tractor */
+
+.tractor {
+    width: 120px;
+    height: 80px;
+    bottom: 10%;
+    right: -120px;
+    /* Start off-screen */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 80'%3E%3C!-- Tractor body --%3E%3Crect x='40' y='40' width='60' height='20' fill='%23d32f2f'/%3E%3C!-- Cabin --%3E%3Crect x='40' y='20' width='30' height='20' fill='%23d32f2f'/%3E%3Crect x='45' y='25' width='20' height='10' fill='%2329b6f6'/%3E%3C!-- Engine --%3E%3Crect x='90' y='30' width='20' height='30' fill='%23d32f2f'/%3E%3C!-- Wheels --%3E%3Ccircle cx='30' cy='60' r='20' fill='%23212121'/%3E%3Ccircle cx='30' cy='60' r='10' fill='%23757575'/%3E%3Ccircle cx='90' cy='60' r='15' fill='%23212121'/%3E%3Ccircle cx='90' cy='60' r='7' fill='%23757575'/%3E%3C!-- Smoke --%3E%3Ccircle cx='100' cy='20' r='5' fill='%23e0e0e0' opacity='0.7'/%3E%3C/svg%3E");
+    animation: tractorMoving 40s infinite linear;
+}
+
+
+/* Clouds */
+
+.cloud {
+    position: absolute;
+    width: 150px;
+    height: 60px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 60'%3E%3Cpath d='M20 40 Q0 40 0 30 Q0 20 15 20 Q15 5 40 10 Q50 0 70 10 Q80 5 90 10 Q100 0 120 10 Q150 10 140 30 Q155 40 140 50 Q110 60 90 50 Q70 60 50 50 Q30 50 20 40 Z' fill='white' opacity='0.8'/%3E%3C/svg%3E");
+    animation: moveCloud linear infinite;
+}
+
+.cloud1 {
+    top: 15%;
+    left: -150px;
+    /* Start off-screen */
+    animation-duration: 60s;
+}
+
+.cloud2 {
+    top: 25%;
+    left: -150px;
+    /* Start off-screen */
+    animation-duration: 80s;
+    animation-delay: 10s;
+}
+
+.cloud3 {
+    top: 10%;
+    left: -150px;
+    /* Start off-screen */
+    animation-duration: 70s;
+    animation-delay: 25s;
+}
+
+
+/* Birds */
+
+.birds {
+    position: absolute;
+    width: 100px;
+    height: 50px;
+    top: 15%;
+    left: -100px;
+    /* Start off-screen */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50'%3E%3Cpath d='M10 20 Q15 15 20 20 Q25 15 30 20' stroke='%23212121' stroke-width='2' fill='none'/%3E%3Cpath d='M40 30 Q45 25 50 30 Q55 25 60 30' stroke='%23212121' stroke-width='2' fill='none'/%3E%3Cpath d='M70 15 Q75 10 80 15 Q85 10 90 15' stroke='%23212121' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    animation: birdsFly 40s infinite linear;
+}
+
+
+/* Keyframe Animations */
+
+@keyframes growPlant {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    20% {
+        transform: scale(0.3);
+        opacity: 1;
+    }
+    40% {
+        transform: scale(0.6);
+    }
+    60% {
+        transform: scale(0.8);
+    }
+    80% {
+        transform: scale(1);
+    }
+    90% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    /* Harvested! */
+}
+
+@keyframes plantSeeds {
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(15deg);
+    }
+}
+
+@keyframes waterPlants {
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(-10deg);
+    }
+}
+
+@keyframes harvestCrops {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(10deg);
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+    75% {
+        transform: rotate(-10deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes moveLeftRight {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(200px);
+    }
+}
+
+@keyframes moveRightLeft {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-200px);
+    }
+}
+
+@keyframes moveUpDown {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(50px);
+    }
+}
+
+@keyframes tractorMoving {
+    0% {
+        right: -120px;
+    }
+    45% {
+        right: 100%;
+    }
+    50% {
+        right: -120px;
+    }
+    100% {
+        right: -120px;
+    }
+}
+
+@keyframes moveCloud {
+    0% {
+        left: -150px;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes birdsFly {
+    0% {
+        left: -100px;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+
+/* Apply form-control styling to all select elements */
+
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: white;
+}
+
+select:focus {
+    border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
 }
@@ -154,57 +436,83 @@ select:focus,
     color: white;
     border: none;
     padding: 14px 20px;
-    border-radius: 8px;
+    border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
     width: 100%;
-    transition: var(--transition);
+    transition: background-color 0.3s, transform 0.2s;
+    font-weight: 600;
+    letter-spacing: 0.5px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 600;
 }
 
 .btn-icon {
     margin-right: 10px;
-    font-size: 18px;
 }
 
 .submit-btn:hover {
-    background-color: var(--primary-dark);
+    background-color: #1b5e20;
     transform: translateY(-2px);
 }
 
-
-/* Results Styles */
+.submit-btn:active {
+    transform: translateY(0);
+}
 
 .results-card {
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-    padding: 30px;
-    margin-top: 40px;
-    border-top: 5px solid var(--accent-color);
+    padding: 25px;
+    margin-top: 30px;
+    border-top: 4px solid var(--accent-color);
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 .results-header {
     display: flex;
     align-items: center;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #f0f0f0;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
 .results-icon {
     font-size: 28px;
-    margin-right: 15px;
+    margin-right: 10px;
     color: var(--accent-color);
 }
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .results-card h2 {
-    color: var(--primary-dark);
-    font-weight: 600;
-    margin: 0;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.8rem;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.results-card h2:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: var(--accent-color);
 }
 
 .crop-list {
@@ -215,40 +523,63 @@ select:focus,
 .crop-item-container {
     margin-bottom: 25px;
     border: 1px solid #eee;
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
-    transition: var(--transition);
+    transition: box-shadow 0.3s;
+    background-color: white;
 }
 
 .crop-item-container:hover {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transform: translateY(-3px);
+}
+
+.crop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px 0 0;
+    background-color: #f9f9f9;
 }
 
 .crop-item {
     display: flex;
     align-items: center;
     padding: 15px;
-    background-color: #f9f9f9;
-    border-bottom: 1px solid #eee;
+    transition: transform 0.2s;
+    flex: 1;
 }
 
 .crop-icon {
     margin-right: 15px;
     font-size: 24px;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #e8f5e9;
-    border-radius: 50%;
 }
 
 .crop-name {
     font-weight: 600;
     font-size: 18px;
-    color: var(--primary-dark);
+    color: var(--primary-color);
+}
+
+.video-btn {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.video-btn:hover {
+    background-color: #f57f17;
+}
+
+.video-btn-icon {
+    margin-right: 5px;
 }
 
 .crop-info {
@@ -256,60 +587,75 @@ select:focus,
 }
 
 .crop-details {
-    padding: 12px;
+    padding: 12px 15px;
     margin-bottom: 15px;
     background-color: #f5f5f5;
-    border-radius: 8px;
+    border-radius: 4px;
     font-size: 15px;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 .crop-specs {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 10px;
 }
 
 .spec-item {
     display: flex;
     align-items: center;
-    padding: 10px;
     background-color: #f9f9f9;
-    border-radius: 8px;
-    font-size: 14px;
+    padding: 12px;
+    border-radius: 6px;
+    border-left: 3px solid var(--primary-color);
 }
 
 .spec-icon {
-    margin-right: 10px;
+    margin-right: 12px;
+    color: var(--primary-color);
     font-size: 18px;
+}
+
+.video-container {
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    padding-top: 56.25%;
+    /* 16:9 Aspect Ratio */
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
 }
 
 .no-results {
     text-align: center;
-    color: var(--text-light);
+    color: #666;
     padding: 30px 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    font-size: 16px;
 }
 
 .no-results-icon {
-    font-size: 36px;
-    margin-bottom: 15px;
-    opacity: 0.7;
+    font-size: 32px;
+    display: block;
+    margin-bottom: 10px;
 }
-
-
-/* Tips Section */
 
 .tips {
     margin-top: 30px;
     padding: 20px;
     background-color: #fff8e1;
-    border-radius: 10px;
-    border-left: 5px solid var(--accent-color);
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
 }
 
 .tips-header {
@@ -321,70 +667,123 @@ select:focus,
 .tips-icon {
     font-size: 24px;
     margin-right: 10px;
-    color: var(--accent-dark);
+    color: #f57f17;
 }
 
 .tips h3 {
-    color: var(--accent-dark);
-    margin: 0;
-    font-weight: 600;
+    color: #f57f17;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
 }
 
 .tips p {
-    margin-top: 10px;
     font-size: 15px;
-}
-
-
-/* Footer */
-
-footer {
-    text-align: center;
-    margin-top: 40px;
-    padding: 20px;
-    color: var(--text-light);
-    font-size: 14px;
 }
 
 
 /* Responsive adjustments */
 
 @media (max-width: 768px) {
-    .container {
-        padding: 10px;
+    .footer-container {
+        flex-direction: column;
     }
-    header {
-        padding: 15px 10px;
-    }
-    header h1 {
-        font-size: 2rem;
-    }
-    .card,
-    .results-card {
-        padding: 20px;
-    }
-    .crop-specs {
-        grid-template-columns: 1fr;
+    .footer-column {
+        margin-bottom: 25px;
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+    .card,
+    .results-card {
+        padding: 15px;
+    }
+    .crop-header {
+        flex-direction: column;
+        padding: 0;
+    }
+    .video-btn {
+        width: 100%;
+        margin: 0 0 15px 0;
+        justify-content: center;
+    }
     .form-group {
         flex-direction: column;
         align-items: flex-start;
     }
     .input-icon {
         margin-bottom: 10px;
-        margin-right: 0;
     }
-    .card,
-    .results-card {
-        padding: 15px;
+}
+
+
+/* Farmer with drone monitoring crops */
+
+.farmer-drone {
+    width: 120px;
+    height: 120px;
+    top: 30%;
+    left: 5%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3C!-- Farmer --%3E%3C!-- Body --%3E%3Cellipse cx='50' cy='90' rx='20' ry='25' fill='%233e2723'/%3E%3C!-- Head --%3E%3Ccircle cx='50' cy='55' r='15' fill='%236d4c41'/%3E%3C!-- Farmer's hat --%3E%3Cpath d='M35 55 L65 55 L60 40 L40 40 Z' fill='%23827717'/%3E%3C!-- Arms --%3E%3Cpath d='M30 70 L5 50' stroke='%233e2723' stroke-width='5' fill='none'/%3E%3Cpath d='M70 70 L100 60' stroke='%233e2723' stroke-width='5' fill='none'/%3E%3C!-- Remote control --%3E%3Crect x='90' y='55' width='15' height='10' fill='%23212121'/%3E%3C!-- Drone --%3E%3Crect x='30' y='10' width='30' height='5' fill='%23616161'/%3E%3Crect x='40' y='5' width='10' height='15' fill='%23424242'/%3E%3C!-- Drone propellers --%3E%3Cline x1='20' y1='10' x2='40' y2='10' stroke='%23212121' stroke-width='3'/%3E%3Cline x1='50' y1='10' x2='70' y2='10' stroke='%23212121' stroke-width='3'/%3E%3C!-- Drone camera --%3E%3Ccircle cx='45' cy='20' r='3' fill='%2329b6f6'/%3E%3C!-- Drone lights --%3E%3Ccircle cx='35' cy='10' r='2' fill='%23f44336'/%3E%3Ccircle cx='65' cy='10' r='2' fill='%234caf50'/%3E%3C/svg%3E");
+    animation: droneMonitoring 15s infinite alternate ease-in-out, floatUpDown 6s infinite ease-in-out;
+}
+
+
+/* Traditional Farm Windmill */
+
+.farm-windmill {
+    width: 150px;
+    height: 200px;
+    bottom: 10%;
+    right: 15%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 200'%3E%3C!-- Windmill Base --%3E%3Cpath d='M60 200 L70 100 L80 200 Z' fill='%23795548'/%3E%3C!-- Windmill Main Structure --%3E%3Cpath d='M60 100 L90 100 L75 50 Z' fill='%23a1887f'/%3E%3C!-- Windmill Door --%3E%3Crect x='68' y='170' width='14' height='20' fill='%235d4037'/%3E%3C!-- Windmill Window --%3E%3Ccircle cx='75' cy='130' r='6' fill='%23ffeb3b'/%3E%3C!-- Windmill Center --%3E%3Ccircle cx='75' cy='50' r='8' fill='%23795548'/%3E%3C!-- Windmill Blades --%3E%3Cpath d='M75 50 L45 20 L55 50 Z' fill='%23f5f5f5'/%3E%3Cpath d='M75 50 L105 20 L95 50 Z' fill='%23f5f5f5'/%3E%3Cpath d='M75 50 L105 80 L95 50 Z' fill='%23f5f5f5'/%3E%3Cpath d='M75 50 L45 80 L55 50 Z' fill='%23f5f5f5'/%3E%3C!-- Field around windmill --%3E%3Cpath d='M0 200 L150 200 L150 190 Q130 185 110 190 Q90 195 70 185 Q50 180 30 190 Q10 195 0 190 Z' fill='%238bc34a'/%3E%3C!-- Small wheat stalks around base --%3E%3Cpath d='M40 190 L35 170 M40 190 L40 170 M40 190 L45 170' stroke='%23cddc39' stroke-width='2'/%3E%3Cpath d='M110 190 L105 170 M110 190 L110 170 M110 190 L115 170' stroke='%23cddc39' stroke-width='2'/%3E%3C/svg%3E");
+    animation: windmillSpin 20s infinite linear;
+}
+
+@keyframes windmillSpin {
+    0% {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 200'%3E%3C!-- Windmill Base --%3E%3Cpath d='M60 200 L70 100 L80 200 Z' fill='%23795548'/%3E%3C!-- Windmill Main Structure --%3E%3Cpath d='M60 100 L90 100 L75 50 Z' fill='%23a1887f'/%3E%3C!-- Windmill Door --%3E%3Crect x='68' y='170' width='14' height='20' fill='%235d4037'/%3E%3C!-- Windmill Window --%3E%3Ccircle cx='75' cy='130' r='6' fill='%23ffeb3b'/%3E%3C!-- Windmill Center --%3E%3Ccircle cx='75' cy='50' r='8' fill='%23795548'/%3E%3C!-- Windmill Blades --%3E%3Cpath d='M75 50 L45 20 L55 50 Z' fill='%23f5f5f5'/%3E%3Cpath d='M75 50 L105 20 L95 50 Z' fill='%23f5f5f5'/%3E%3Cpath d='M75 50 L105 80 L95 50 Z' fill='%23f5f5f5'/%3E%3Cpath d='M75 50 L45 80 L55 50 Z' fill='%23f5f5f5'/%3E%3C!-- Field around windmill --%3E%3Cpath d='M0 200 L150 200 L150 190 Q130 185 110 190 Q90 195 70 185 Q50 180 30 190 Q10 195 0 190 Z' fill='%238bc34a'/%3E%3C!-- Small wheat stalks around base --%3E%3Cpath d='M40 190 L35 170 M40 190 L40 170 M40 190 L45 170' stroke='%23cddc39' stroke-width='2'/%3E%3Cpath d='M110 190 L105 170 M110 190 L110 170 M110 190 L115 170' stroke='%23cddc39' stroke-width='2'/%3E%3C/svg%3E");
     }
-    .logo {
-        font-size: 36px;
+    25% {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 200'%3E%3C!-- Windmill Base --%3E%3Cpath d='M60 200 L70 100 L80 200 Z' fill='%23795548'/%3E%3C!-- Windmill Main Structure --%3E%3Cpath d='M60 100 L90 100 L75 50 Z' fill='%23a1887f'/%3E%3C!-- Windmill Door --%3E%3Crect x='68' y='170' width='14' height='20' fill='%235d4037'/%3E%3C!-- Windmill Window --%3E%3Ccircle cx='75' cy='130' r='6' fill='%23ffeb3b'/%3E%3C!-- Windmill Center --%3E%3Ccircle cx='75' cy='50' r='8' fill='%23795548'/%3E%3C!-- Windmill Blades Rotated 90 degrees --%3E%3Cpath d='M75 50 L45 50 L75 40 Z' fill='%23f5f5f5'/%3E%3Cpath d='M75 50 L75 20 L85 50 Z' fill='%23f5f5f5'/%3E%3Cpath d='M75 50 L105 50 L75 60 Z' fill='%23f5f5f5'/%3E%3Cpath d='M75 50 L75 80 L65 50 Z' fill='%23f5f5f5'/%3E%3C!-- Field around windmill --%3E%3Cpath d='M0 200 L150 200 L150 190 Q130 185 110 190 Q90 195 70 185 Q50 180 30 190 Q10 195 0 190 Z' fill='%238bc34a'/%3E%3C!-- Small wheat stalks around base --%3E%3Cpath d='M40 190 L35 170 M40 190 L40 170 M40 190 L45 170' stroke='%23cddc39' stroke-width='2'/%3E%3Cpath d='M110 190 L105 170 M110 190 L110 170 M110 190 L115 170' stroke='%23cddc39' stroke-width='2'/%3E%3C/svg%3E");
     }
-    header h1 {
-        font-size: 1.8rem;
+    50% {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 200'%3E%3C!-- Windmill Base --%3E%3Cpath d='M60 200 L70 100 L80 200 Z' fill='%23795548'/%3E%3C!-- Windmill Main Structure --%3E%3Cpath d='M60 100 L90 100 L75 50 Z' fill='%23a1887f'/%3E%3C!-- Windmill Door --%3E%3Crect x='68' y='170' width='14' height='20' fill='%235d4037'/%3E%3C!-- Windmill Window --%3E%3Ccircle cx='75' cy='130' r='6' fill='%23ffeb3b'/%3E%3C!-- Windmill Center --%3E%3Ccircle cx='75' cy='50' r='8' fill='%23795548'/%3E%3C!-- Windmill Blades Rotated 180 degrees --%3E%3Cpath d='M75 50 L55 80 L45 50 Z' fill='%23f5f5f5'/%3E%3Cpath d='M75 50 L95 80 L105 50 Z' fill='%23f5f5f5'/%3E%3Cpath d='M75 50 L95 20 L105 50 Z' fill='%23f5f5f5'/%3E%3Cpath d='M75 50 L55 20 L45 50 Z' fill='%23f5f5f5'/%3E%3C!-- Field around windmill --%3E%3Cpath d='M0 200 L150 200 L150 190 Q130 185 110 190 Q90 195 70 185 Q50 180 30 190 Q10 195 0 190 Z' fill='%238bc34a'/%3E%3C!-- Small wheat stalks around base --%3E%3Cpath d='M40 190 L35 170 M40 190 L40 170 M40 190 L45 170' stroke='%23cddc39' stroke-width='2'/%3E%3Cpath d='M110 190 L105 170 M110 190 L110 170 M110 190 L115 170' stroke='%23cddc39' stroke-width='2'/%3E%3C/svg%3E");
+    }
+    75% {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 200'%3E%3C!-- Windmill Base --%3E%3Cpath d='M60 200 L70 100 L80 200 Z' fill='%23795548'/%3E%3C!-- Windmill Main Structure --%3E%3Cpath d='M60 100 L90 100 L75 50 Z' fill='%23a1887f'/%3E%3C!-- Windmill Door --%3E%3Crect x='68' y='170' width='14' height='20' fill='%235d4037'/%3E%3C!-- Windmill Window --%3E%3Ccircle cx='75' cy='130' r='6' fill='%23ffeb3b'/%3E%3C!-- Windmill Center --%3E%3Ccircle cx='75' cy='50' r='8' fill='%23795548'/%3E%3C!-- Windmill Blades Rotated 270 degrees --%3E%3Cpath d='M75 50 L105 50 L75 60 Z' fill='%23f5f5f5'/%3E%3Cpath d='M75 50 L75 80 L65 50 Z' fill='%23f5f5f5'/%3E%3Cpath d='M75 50 L45 50 L75 40 Z' fill='%23f5f5f5'/%3E%3Cpath d='M75 50 L75 20 L85 50 Z' fill='%23f5f5f5'/%3E%3C!-- Field around windmill --%3E%3Cpath d='M0 200 L150 200 L150 190 Q130 185 110 190 Q90 195 70 185 Q50 180 30 190 Q10 195 0 190 Z' fill='%238bc34a'/%3E%3C!-- Small wheat stalks around base --%3E%3Cpath d='M40 190 L35 170 M40 190 L40 170 M40 190 L45 170' stroke='%23cddc39' stroke-width='2'/%3E%3Cpath d='M110 190 L105 170 M110 190 L110 170 M110 190 L115 170' stroke='%23cddc39' stroke-width='2'/%3E%3C/svg%3E");
+    }
+    100% {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 200'%3E%3C!-- Windmill Base --%3E%3Cpath d='M60 200 L70 100 L80 200 Z' fill='%23795548'/%3E%3C!-- Windmill Main Structure --%3E%3Cpath d='M60 100 L90 100 L75 50 Z' fill='%23a1887f'/%3E%3C!-- Windmill Door --%3E%3Crect x='68' y='170' width='14' height='20' fill='%235d4037'/%3E%3C!-- Windmill Window --%3E%3Ccircle cx='75' cy='130' r='6' fill='%23ffeb3b'/%3E%3C!-- Windmill Center --%3E%3Ccircle cx='75' cy='50' r='8' fill='%23795548'/%3E%3C!-- Windmill Blades --%3E%3Cpath d='M75 50 L45 20 L55 50 Z' fill='%23f5f5f5'/%3E%3Cpath d='M75 50 L105 20 L95 50 Z' fill='%23f5f5f5'/%3E%3Cpath d='M75 50 L105 80 L95 50 Z' fill='%23f5f5f5'/%3E%3Cpath d='M75 50 L45 80 L55 50 Z' fill='%23f5f5f5'/%3E%3C!-- Field around windmill --%3E%3Cpath d='M0 200 L150 200 L150 190 Q130 185 110 190 Q90 195 70 185 Q50 180 30 190 Q10 195 0 190 Z' fill='%238bc34a'/%3E%3C!-- Small wheat stalks around base --%3E%3Cpath d='M40 190 L35 170 M40 190 L40 170 M40 190 L45 170' stroke='%23cddc39' stroke-width='2'/%3E%3Cpath d='M110 190 L105 170 M110 190 L110 170 M110 190 L115 170' stroke='%23cddc39' stroke-width='2'/%3E%3C/svg%3E");
+    }
+}
+
+@keyframes droneMonitoring {
+    0% {
+        transform: translateX(0) rotate(0deg);
+    }
+    25% {
+        transform: translateX(100px) rotate(5deg);
+    }
+    50% {
+        transform: translateX(150px) rotate(0deg);
+    }
+    75% {
+        transform: translateX(50px) rotate(-5deg);
+    }
+    100% {
+        transform: translateX(0) rotate(0deg);
+    }
+}
+
+@keyframes floatUpDown {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
     }
 }
