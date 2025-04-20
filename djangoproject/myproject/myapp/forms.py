@@ -72,7 +72,7 @@ import os
 import pandas as pd
 from django import forms
 from .utils import (get_filtered_districts, get_filtered_markets, 
-                   get_filtered_commodities, get_filtered_varieties)
+                    get_filtered_commodities, get_filtered_varieties)
 
 # Convert list of values to Django choice tuples
 def to_choices(values):
