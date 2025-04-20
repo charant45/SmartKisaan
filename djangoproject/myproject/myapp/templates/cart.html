@@ -256,9 +256,9 @@
             <!-- Subtotal -->
             <div class="cart-item-right">
                 <p class="subtotal" 
-                   data-is-rent="{% if item.is_rent %}true{% else %}false{% endif %}"
-                   data-rent-price="{{ item.product.rent_price }}"
-                   data-price="{{ item.product.price }}">
+                    data-is-rent="{% if item.is_rent %}true{% else %}false{% endif %}"
+                    data-rent-price="{{ item.product.rent_price }}"
+                    data-price="{{ item.product.price }}">
                     ₹<span id="subtotal-{{ item.id }}">{{ item.subtotal }}</span>
                 </p>
             </div>
