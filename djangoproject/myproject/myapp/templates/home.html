@@ -112,7 +112,16 @@ nav a:hover::after {
     .dropdown li:hover {
         background-color: #f2f2f2;
     }
-    </style>
+    .product-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    }
+
+    .product-card a:hover {
+        text-decoration: none;
+    }
+</style>
 </head>
 <body>
 
@@ -203,24 +212,32 @@ nav a:hover::after {
     <h2>Products and Services</h2>
     <div class="products-grid">
         <div class="product-card">
-            <img src="{% static 'myapp/images/buysell.png' %}" alt="Product 1" class="product-sticker">
-            <h3>Buy & Sell</h3>
-            <p>Easily buy or sell new and used farming equipment in your area.</p>
+            <a href="{% url 'buy' %}">
+                <img src="{% static 'myapp/images/buysell.png' %}" alt="Product 1" class="product-sticker">
+                <h3>Buy & Sell</h3>
+                <p>Easily buy or sell new and used farming equipment in your area.</p>
+            </a>
         </div>
         <div class="product-card">
-            <img src="{% static 'myapp/images/rent.png' %}" alt="Product 2" class="product-sticker">
-            <h3>Rent</h3>
-            <p>Rent farming tools and machinery as per your needs and budget.</p>
+            <a href="{% url 'rent_in' %}">
+                <img src="{% static 'myapp/images/rent.png' %}" alt="Product 2" class="product-sticker">
+                <h3>Rent</h3>
+                <p>Rent farming tools and machinery as per your needs and budget.</p>
+            </a>
         </div>
         <div class="product-card">
-            <img src="{% static 'myapp/images/plant.png' %}" alt="Product 3" class="product-sticker">
-            <h3>What to Plant?</h3>
-            <p>Enter your location, season, and soil type to discover the best crops to grow.</p>
+            <a href="{% url 'crop_suggestion' %}">
+                <img src="{% static 'myapp/images/plant.png' %}" alt="Product 3" class="product-sticker">
+                <h3>What to Plant?</h3>
+                <p>Enter your location, season, and soil type to discover the best crops to grow.</p>
+            </a>
         </div>
         <div class="product-card">
-            <img src="{% static 'myapp/images/ai1.png' %}" alt="Product 4" class="product-sticker">
-            <h3>When to Sell?</h3>
-            <p>Our AI predicts the best time to sell your produce for maximum profit.</p>
+            <a href="{% url 'predict' %}">
+                <img src="{% static 'myapp/images/ai1.png' %}" alt="Product 4" class="product-sticker">
+                <h3>When to Sell?</h3>
+                <p>Our AI predicts the best time to sell your produce for maximum profit.</p>
+            </a>
         </div>
     </div>
 </section>

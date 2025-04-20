@@ -1,95 +1,193 @@
-<!-- templates/sell.html -->
 {% extends 'base.html' %}
 {% block content %}
 <style>
-
     body {
-        background-color: #74c976;
         font-family: 'Segoe UI', sans-serif;
         margin: 0;
         padding: 0;
+        background-color: #f8f9fa;
+    }
+
+    .page-header {
+        background-color: #74c976;
+        padding: 40px 0;
+        text-align: center;
+        color: white;
+        margin-bottom: 40px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .page-header h1 {
+        margin: 0;
+        font-size: 2.2rem;
+        font-weight: 600;
     }
 
     .sell-container {
-        max-width: 500px;
-        margin: 150px auto 50px;
-        padding: 30px;
-        background-color: #f9f9f9;
-        border: 1px solid #ddd;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+        max-width: 600px;
+        margin: 0 auto 60px;
+        padding: 40px;
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     }
 
-    h1 {
-        text-align: center;
+    .form-group {
+        margin-bottom: 24px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
         color: #333;
-        margin-bottom: 20px;
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-    }
-
-    form p {
-        margin-bottom: 15px;
+        font-size: 0.95rem;
     }
 
     input, select, textarea {
         width: 100%;
-        padding: 10px;
-        margin-top: 5px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-size: 14px;
+        padding: 14px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background-color: #f9f9f9;
     }
 
-    button[type="submit"] {
+    input:focus, select:focus, textarea:focus {
+        outline: none;
+        border-color: #74c976;
+        box-shadow: 0 0 0 3px rgba(116, 201, 118, 0.2);
+        background-color: white;
+    }
+
+    textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    .submit-btn {
         background-color: #74c976;
         color: white;
-        padding: 10px 15px;
+        padding: 16px;
         border: none;
-        border-radius: 8px;
-        font-size: 16px;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-weight: 600;
         cursor: pointer;
-        transition: background-color 0.3s ease;
+        transition: all 0.3s ease;
+        width: 100%;
         margin-top: 10px;
+        box-shadow: 0 4px 12px rgba(116, 201, 118, 0.3);
     }
 
-    button[type="submit"]:hover {
+    .submit-btn:hover {
         background-color: #5fb366;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(116, 201, 118, 0.4);
+    }
+
+    .submit-btn:active {
+        transform: translateY(0);
     }
 
     .back-link {
         display: block;
         text-align: center;
-        margin-top: 15px;
-        color: #74c976;
+        margin-top: 24px;
+        color: #555;
         text-decoration: none;
         font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 10px;
     }
 
     .back-link:hover {
-        text-decoration: underline;
+        color: #74c976;
     }
 
-    @media (max-height: 700px) {
+    .form-note {
+        background-color: #f0f9f0;
+        border-left: 4px solid #74c976;
+        padding: 16px;
+        margin-bottom: 24px;
+        border-radius: 0 10px 10px 0;
+        color: #333;
+    }
+
+    .form-note p {
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+    /* Custom styling for Django form */
+    form p {
+        margin-bottom: 24px;
+    }
+
+    form p label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #333;
+        font-size: 0.95rem;
+    }
+
+    /* Help text styling */
+    form p .helptext {
+        display: block;
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    /* Error styling */
+    form p .errorlist {
+        color: #e74c3c;
+        list-style: none;
+        padding: 0;
+        margin: 5px 0;
+        font-size: 0.85rem;
+    }
+
+    /* File input styling */
+    form p input[type="file"] {
+        padding: 10px;
+        background-color: #f9f9f9;
+    }
+
+    @media (max-width: 768px) {
         .sell-container {
-            margin-top: 80px;
+            padding: 30px;
+            margin: 0 20px 40px;
+        }
+        
+        .page-header {
+            padding: 30px 0;
+        }
+        
+        .page-header h1 {
+            font-size: 1.8rem;
         }
     }
 </style>
 
+<div class="page-header">
+    <h1>Sell Your Product</h1>
+</div>
+
 <div class="sell-container">
-    <h1>Sell a Product</h1>
+    <div class="form-note">
+        <p>Complete the form below to list your product for sale. Be sure to include clear images and detailed descriptions to attract buyers.</p>
+    </div>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <b>{{ form.as_p }}</b>
-        <button type="submit">Submit Product</button>
+        {{ form.as_p }}
+        <button type="submit" class="submit-btn">List Product for Sale</button>
     </form>
 
-    <a class="back-link" href="{% url 'buy' %}">Go to Buy Page</a>
+    <a class="back-link" href="{% url 'buy' %}">← Return to Buy Page</a>
 </div>
 {% endblock %}
-
