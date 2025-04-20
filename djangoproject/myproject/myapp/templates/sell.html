@@ -1,0 +1,95 @@
+<!-- templates/sell.html -->
+{% extends 'base.html' %}
+{% block content %}
+<style>
+
+    body {
+        background-color: #74c976;
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .sell-container {
+        max-width: 500px;
+        margin: 150px auto 50px;
+        padding: 30px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    form p {
+        margin-bottom: 15px;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 14px;
+    }
+
+    button[type="submit"] {
+        background-color: #74c976;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 10px;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #5fb366;
+    }
+
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        color: #74c976;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-height: 700px) {
+        .sell-container {
+            margin-top: 80px;
+        }
+    }
+</style>
+
+<div class="sell-container">
+    <h1>Sell a Product</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <b>{{ form.as_p }}</b>
+        <button type="submit">Submit Product</button>
+    </form>
+
+    <a class="back-link" href="{% url 'buy' %}">Go to Buy Page</a>
+</div>
+{% endblock %}
+

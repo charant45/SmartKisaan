@@ -34,13 +34,13 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'myapp',
-    'crop_suggestions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
@@ -120,8 +120,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'myapp/static',
-    BASE_DIR / 'crop_suggestions/static',
+    BASE_DIR / 'myapp/static'
 ]
 
 
@@ -131,4 +130,7 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 

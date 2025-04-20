@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+
+<style>
+    /* General Form Styling */
+form {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+/* Icon for input fields */
+.input-icon {
+    font-size: 24px;
+    margin-right: 10px;
+    color: #4CAF50; /* Green color for icons */
+}
+
+/* Styling for input fields */
+.input-field {
+    flex-grow: 1;
+}
+
+label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+    display: block;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    border-color: #4CAF50; /* Focus border color */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* Submit Button Styling */
+.submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #45a049; /* Slightly darker green on hover */
+}
+
+.submit-btn .btn-icon {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 600px) {
+    .form-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .input-icon {
+        margin-bottom: 8px;
+    }
+
+    .submit-btn {
+        width: 100%;
+    }
+}
+
+</style>
+<!-- Add this CSS for the page -->
+<link rel="stylesheet" href="{% static 'myapp/css/crop_suggestion.css' %}">
+
+<!-- Add this right after the content block starts -->
+<div class="background-animation">
+    <!-- Farmers -->
+    <div class="farm-element farmer-planting"></div>
+    <div class="farm-element farmer-watering"></div>
+    <div class="farm-element farmer-harvesting"></div>
+
+    <!-- Tractor -->
+    <div class="farm-element tractor"></div>
+
+    <!-- Clouds -->
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+    <div class="cloud cloud3"></div>
+
+    <!-- Birds -->
+    <div class="farm-element birds"></div>
+
+    <!-- Drone -->
+    <div class="farm-element farmer-drone"></div>
+
+    <!-- Windmill -->
+    <div class="farm-element farm-windmill"></div>
+</div>
+
+<div class="container">
+    
+
+    <div class="card form-card">
+        <h2>Enter Your Details</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="input-icon">🍂</div>
+                <div class="input-field">
+                    <label for="{{ form.season.id_for_label }}">Season:</label> {{ form.season }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-icon">📍</div>
+                <div class="input-field">
+                    <label for="{{ form.location.id_for_label }}">Location:</label> {{ form.location }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-icon">🌱</div>
+                <div class="input-field">
+                    <label for="{{ form.soil_type.id_for_label }}">Soil Type:</label> {{ form.soil_type }}
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <span class="btn-icon">🔍</span>
+                <span>Get Suggestions</span>
+            </button>
+        </form>
+    </div>
+
+    {% if form_submitted %}
+    <div class="results-card">
+        <div class="results-header">
+            <span class="results-icon">🌿</span>
+            <h2>Suggested Crops</h2>
+        </div>
+
+        {% if crops %}
+        <ul class="crop-list">
+            {% for crop in crops %}
+            <li class="crop-item-container">
+                <div class="crop-header">
+                    <div class="crop-item">
+                        <span class="crop-icon">🌱</span>
+                        <span class="crop-name">{{ crop.crop_name }}</span>
+                    </div>
+
+                    {% if crop.video_url %}
+                    <button class="video-btn" onclick="toggleVideo('video-{{ crop.id }}')">
+                        <span class="video-btn-icon">🎥</span>
+                        <span>Watch Video</span>
+                    </button> {% endif %}
+                </div>
+
+                <div class="crop-info">
+                    {% if crop.description %}
+                    <div class="crop-details">{{ crop.description }}</div>
+                    {% endif %}
+
+                    <div class="crop-specs">
+                        {% if crop.planting_method %}
+                        <div class="spec-item">
+                            <span class="spec-icon">🌰</span>
+                            <span><strong>Planting:</strong> {{ crop.planting_method }}</span>
+                        </div>
+                        {% endif %} {% if crop.water_requirements %}
+                        <div class="spec-item">
+                            <span class="spec-icon">💧</span>
+                            <span><strong>Water needs:</strong> {{ crop.water_requirements }}</span>
+                        </div>
+                        {% endif %} {% if crop.growth_duration %}
+                        <div class="spec-item">
+                            <span class="spec-icon">⏱️</span>
+                            <span><strong>Growth period:</strong> {{ crop.growth_duration }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    {% if crop.video_url %}
+                    <div id="video-{{ crop.id }}" class="video-container" style="display: none;">
+                        <div class="plant-decoration plant-top-left plant-animation">
+                            <svg viewBox="0 0 24 24" fill="#2e7d32">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                            </svg>
+                        </div>
+
+                        <h3 class="video-title">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2v8"></path>
+                                <path d="M4.93 10.93L12 18l7.07-7.07"></path>
+                                <path d="M2 22h20"></path>
+                            </svg> Growing {{ crop.crop_name }}
+                        </h3>
+
+                        <div class="video-wrapper">
+                            <iframe width="100%" height="315" src="{{ crop.video_url }}" title="{{ crop.crop_name }} Farming Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                            </iframe>
+                        </div>
+
+                        <div class="video-info">
+                            Learn best practices for growing {{ crop.crop_name }} in your region. This video covers planting techniques, care instructions, and harvesting tips.
+                        </div>
+
+                        <div class="plant-decoration plant-bottom-right plant-animation">
+                            <svg viewBox="0 0 24 24" fill="#2e7d32">
+                                <path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM10 17l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                            </svg>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <div class="no-results">
+            <span class="no-results-icon">🔍</span>
+            <p>No crops found matching your criteria. Try different parameters or consult with a local agricultural expert.</p>
+        </div>
+        {% endif %}
+
+        <div class="tips">
+            <div class="tips-header">
+                <span class="tips-icon">💡</span>
+                <h3>Farming Tips</h3>
+            </div>
+            <p>Remember to check local agricultural advisories for the most up-to-date recommendations for your specific area.</p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Add JavaScript for the video toggle functionality -->
+<script>
+    function toggleVideo(videoId) {
+        const videoContainer = document.getElementById(videoId);
+        if (videoContainer.style.display === "none") {
+            videoContainer.style.display = "block";
+        } else {
+            videoContainer.style.display = "none";
+        }
+    }
+</script>
+
+{% endblock %}

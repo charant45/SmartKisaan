@@ -1,0 +1,393 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    /* Overlay for when cart is open */
+
+    
+    .cart-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        display: none;
+    }
+
+    /* Sliding cart panel */
+    .sliding-cart {
+        position: fixed;
+        top: 0;
+        right: -50vw; /* Start off-screen */
+        width: 40vw;
+        height: 95%;
+        background-color: white;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+        transition: right 0.3s ease-in-out;
+        z-index: 1000;
+        overflow-y: auto;
+        padding: 20px 20px 2px 20px;
+    }
+
+    /* When cart is open */
+    .sliding-cart.open {
+        right: 0;
+    }
+
+    /* Close button */
+    .cart-close {
+        position: absolute;
+        top: 15px;
+        right: 25px;
+        font-size: 24px;
+        cursor: pointer;
+        color: #333;
+    }
+
+    /* Cart header */
+    .cart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .cart-header h2 {
+        margin: 0;
+        font-size: 24px;
+        position: sticky;
+    }
+
+    /* Basic Styles */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    h3 {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .proceed a {
+        color: white;
+        background-color: #28a745;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        display: inline-block;
+    }
+
+    .proceed a:hover {
+        background-color: #218838;
+    }
+
+    /* Card Style for Each Item */
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .cart-item-left {
+        flex: 1;
+        padding-right: 20px;
+    }
+
+    .cart-item-image {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .cart-item-center {
+        flex: 3;
+        padding-right: 20px;
+    }
+
+    .cart-item-center h4 {
+        font-size: 16px;
+        margin-bottom: 8px;
+        margin-top: 0;
+    }
+
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .quantity-btn {
+        background-color: #f1f1f1;
+        border: 1px solid #ddd;
+        padding: 3px 8px;
+        cursor: pointer;
+        margin: 0 5px;
+        font-size: 14px;
+        border-radius: 3px;
+    }
+
+    .quantity-btn:hover {
+        background-color: #ddd;
+    }
+
+    .quantity {
+        font-size: 14px;
+        font-weight: bold;
+        margin: 0 5px;
+    }
+
+    .product-price {
+        font-size: 14px;
+        color: #555;
+        margin: 5px 0;
+    }
+
+    /* Right side: Subtotal */
+    .cart-item-right {
+        flex: 1;
+        text-align: right;
+    }
+
+    .subtotal {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    /* Final Total */
+    .total-amount {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+        position: sticky;
+        bottom: 0;
+        background-color: white;
+    }
+
+    .checkout-btn {
+        font-size: 16px;
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .checkout-btn:hover {
+        background-color: #218838;
+    }
+
+    /* Empty cart message */
+    .empty-cart {
+        text-align: center;
+        padding: 40px 0;
+        color: #666;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .sliding-cart {
+            width: 80vw;
+            right: -80vw;
+        }
+    }
+</style>
+
+
+
+<!-- Sliding cart panel -->
+<div class="sliding-cart" id="slidingCart">
+    <div class="cart-header">
+        <h2>Your Cart</h2>
+        <span class="cart-close" id="closeCart">&times;</span>
+    </div>
+
+    {% if cart_items %}
+    <div class="cart-items">
+        {% for item in cart_items %}
+        <div class="cart-item" id="item-{{ item.id }}">
+            <div class="cart-item-left">
+                <!-- Product Image -->
+                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="cart-item-image">
+            </div>
+
+            <div class="cart-item-center">
+                <!-- Product Name -->
+                <h4>{{ item.product.name }}</h4>
+
+                <!-- Quantity Controls -->
+                <div class="quantity-controls">
+                    <button class="quantity-btn" onclick="updateQuantity('{{ item.id }}', -1)">-</button>
+                    <span id="quantity-{{ item.id }}" class="quantity">{{ item.quantity }}</span>
+                    <button class="quantity-btn" onclick="updateQuantity('{{ item.id }}', 1)">+</button>
+                </div>
+                
+                <!-- Price -->
+                <p class="product-price">
+                    {% if item.is_rent %}
+                        Rent: ₹{{ item.product.rent_price }}/day
+                        <span id="days-info-{{ item.id }}">for {{ item.rental_days }} days</span>
+                        <input type="hidden" id="rental-days-{{ item.id }}" value="{{ item.rental_days }}">
+                    {% else %}
+                        Price: ₹{{ item.product.price }}
+                    {% endif %}
+                </p>
+            </div>
+
+            <!-- Subtotal -->
+            <div class="cart-item-right">
+                <p class="subtotal" 
+                   data-is-rent="{% if item.is_rent %}true{% else %}false{% endif %}"
+                   data-rent-price="{{ item.product.rent_price }}"
+                   data-price="{{ item.product.price }}">
+                    ₹<span id="subtotal-{{ item.id }}">{{ item.subtotal }}</span>
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Final Total -->
+    <div class="total-amount">
+        <h3>Total: ₹<span id="final-total">{{ total }}</span></h3>
+        <div class="proceed">
+            <a href="{% url 'checkout' %}" class="checkout-btn">Checkout</a>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="empty-cart">
+        <p>Your cart is empty</p>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    // Store initial values when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        // Auto open the cart when the page loads
+        openCart();
+        
+        // Store all the initial values
+        document.querySelectorAll('.cart-item').forEach(function(item) {
+            const itemId = item.id.replace('item-', '');
+            const quantityEl = document.getElementById(`quantity-${itemId}`);
+            const subtotalEl = document.getElementById(`subtotal-${itemId}`);
+            
+            // Store original values as data attributes
+            if (!item.hasAttribute('data-original-quantity')) {
+                item.setAttribute('data-original-quantity', quantityEl.innerText);
+            }
+            
+            if (!item.hasAttribute('data-original-subtotal')) {
+                item.setAttribute('data-original-subtotal', subtotalEl.innerText);
+            }
+            
+            // Get rental days if it's a rental item
+            const rentalDaysEl = document.getElementById(`rental-days-${itemId}`);
+            if (rentalDaysEl) {
+                item.setAttribute('data-rental-days', rentalDaysEl.value);
+            }
+        });
+    });
+    
+    // Function to update the quantity and subtotal dynamically
+    function updateQuantity(itemId, change) {
+        const quantityElement = document.getElementById(`quantity-${itemId}`);
+        let quantity = parseInt(quantityElement.innerText);
+        quantity += change;
+        if (quantity < 1) return;
+
+        quantityElement.innerText = quantity;
+
+        // Recalculate subtotal
+        updateSubtotal(itemId);
+    }
+
+    function updateSubtotal(itemId) {
+        const itemContainer = document.getElementById(`item-${itemId}`);
+        const quantityElement = document.getElementById(`quantity-${itemId}`);
+        const subtotalElement = document.getElementById(`subtotal-${itemId}`);
+        const subtotalParent = subtotalElement.parentElement;
+        
+        const rentPrice = parseFloat(subtotalParent.getAttribute('data-rent-price') || 0);
+        const price = parseFloat(subtotalParent.getAttribute('data-price') || 0);
+        const isRent = subtotalParent.getAttribute('data-is-rent') === 'true';
+        
+        // Get current quantity
+        const quantity = parseInt(quantityElement.innerText);
+        
+        // Calculate new subtotal
+        let newSubtotal = 0;
+        
+        if (isRent) {
+            // For rental items, get the rental days
+            const rentalDays = parseInt(itemContainer.getAttribute('data-rental-days')) || 1;
+            newSubtotal = rentPrice * quantity * rentalDays;
+        } else {
+            // For regular items
+            newSubtotal = price * quantity;
+        }
+        
+        subtotalElement.innerText = newSubtotal.toFixed(2);
+
+        // Recalculate total
+        updateTotal();
+    }
+    
+    function updateTotal() {
+        let total = 0;
+        document.querySelectorAll('.cart-item').forEach(function(item) {
+            const subtotalEl = item.querySelector('.subtotal span');
+            const itemSubtotal = parseFloat(subtotalEl.innerText.trim());
+            total += itemSubtotal;
+        });
+        document.getElementById('final-total').innerText = total.toFixed(2);
+    }
+    
+    // Cart opening and closing functions
+    function openCart() {
+        document.getElementById('slidingCart').classList.add('open');
+        document.getElementById('cartOverlay').style.display = 'block';
+        // Prevent body scrolling when cart is open
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closeCart() {
+        document.getElementById('slidingCart').classList.remove('open');
+        document.getElementById('cartOverlay').style.display = 'none';
+        // Restore body scrolling
+        document.body.style.overflow = 'auto';
+    }
+    
+    // Event listeners for opening/closing cart
+    document.getElementById('closeCart').addEventListener('click', closeCart);
+    document.getElementById('cartOverlay').addEventListener('click', closeCart);
+    
+    // Close cart with Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeCart();
+        }
+    });
+</script>
+{% endblock %}

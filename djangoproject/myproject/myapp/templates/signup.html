@@ -5,25 +5,103 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sign Up</title>
-  <link rel="stylesheet" href="{% static 'myapp/css/signup.css' %}" />
+  <link rel="stylesheet" href="{% static 'myapp/css/login.css' %}" />
+
+
+  <style>
+        
+    header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(6px);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 40px;
+        z-index: 1000;
+    }
+    
+    .logo{
+        width: 38%;
+    }
+    
+    .logo img {
+        height: 30px;
+    }
+    
+    nav {
+        width: 77%;
+        display: flex;
+        gap: 6%;
+    }
+    
+    nav a {
+        text-decoration: none;
+        color: #444;
+        font-weight: 500;
+        position: relative;
+        transition: color 0.3s;
+    }
+    
+    nav a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background-color: #4CAF50;
+        transition: width 0.3s ease;
+    }
+    
+    nav a:hover {
+        color: #2d7d2d;
+    }
+    
+    nav a:hover::after {
+        width: 100%;
+    }
+    
+        </style>
+
 </head>
 <body>
 
   <header>
     <div class="logo">
-      <img src="{% static 'myapp/images/logo1.png' %}" alt="Smart Market Logo" />
+        <img src="{% static 'myapp/images/logo1.png' %}" alt="Smart Market Logo">
     </div>
     <nav>
       <a href="{% url 'home' %}">Home</a>
-      <a href="#">Buy Products</a>
-      <a href="#">Rent Tools</a>
-      <a href="#">What to plant?</a>
-      <a href="#">When to sell?</a>
-      <a href="{% url 'login' %}">Login</a>
-    
+        <a href="{% url 'buy' %}">Buy Products</a>
+        <a href="{% url 'rent_in' %}">Rent Tools</a>
+        <a href="{% url 'crop_suggestion' %}">What to plant?</a>
+        <a href="{% url 'predict' %}">When to sell?</a>
+        <a href="{% url 'view_cart' %}">Cart</a>
+        
+        
+        {% if user.is_authenticated %}
+        <div class="profile-menu" id="profileMenu">
+          <img src="{% static 'myapp/images/profile.png' %}" alt="Profile Icon" class="profile-icon" id="profileIcon">
+          <ul class="dropdown" id="dropdownMenu">
+            <li><a href="{% url 'sell' %}">Sell</a></li>
+            <li><a href="{% url 'rent_out' %}">Rent Out</a></li>
+            <li><a href="{% url 'listings' %}">My Listings</a></li>
+            <li><a href="#">My Orders</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+          </ul>
+        </div>
+      {% else %}
+        <a href="{% url 'login' %}">Login</a>
+      {% endif %}      
+
+
 
     </nav>
-  </header>
+</header>
 
   <div class="auth-container">
     <h2>Sign Up</h2>

@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+
+body {
+        background-color: #74c976;
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+        header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(6px);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 40px;
+        z-index: 1000;
+    }
+    
+    .logo{
+        width: 38%;
+    }
+    
+    .logo img {
+        height: 30px;
+    }
+    
+    nav {
+        width: 77%;
+        display: flex;
+        gap: 6%;
+    }
+    
+    nav a {
+        text-decoration: none;
+        color: #444;
+        font-weight: 500;
+        position: relative;
+        transition: color 0.3s;
+    }
+    
+    nav a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background-color: #4CAF50;
+        transition: width 0.3s ease;
+    }
+    
+    nav a:hover {
+        color: #2d7d2d;
+    }
+    
+    nav a:hover::after {
+        width: 100%;
+    }
+
+    .sell-container {
+        max-width: 500px;
+        margin: 150px auto 50px;
+        padding: 30px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    form p {
+        margin-bottom: 15px;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 14px;
+    }
+
+    button[type="submit"] {
+        background-color: #74c976;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 10px;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #5fb366;
+    }
+
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        color: #74c976;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-height: 700px) {
+        .sell-container {
+            margin-top: 80px;
+        }
+    }
+</style>
+  <div class="sell-container">
+    <h2>Edit Product</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Save Changes</button>
+    </form>
+  </div>
+{% endblock %}

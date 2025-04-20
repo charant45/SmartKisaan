@@ -1,0 +1,431 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Font Awesome CDN for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<style>
+ body {
+    background: linear-gradient(rgba(244, 247, 244, 0.8), rgba(98, 151, 94, 0.8)), 
+              url('https://www.example.com/green-pattern.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+  .container {
+    margin-top: 8%;
+  }
+
+  .first {
+  background-color: #fafffa;
+  width: 60%;
+  max-width: 700px;
+  margin: 0 auto; /* centers the box */
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.second {
+  width: 80%;
+  max-width: 900px;
+  margin: 40px auto; /* centers and gives spacing */
+  background-color: #ffffff;
+  border-radius: 15px;
+  padding: 10px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+}
+
+
+
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2e7d32;
+  }
+
+  #predict-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(46, 125, 50, 0.1);
+    animation: slideUp 0.6s ease;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #388e3c;
+    font-size: 15px;
+  }
+
+  .form-group i {
+    margin-right: 6px;
+    color: #66bb6a;
+  }
+
+  .form-group select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #c8e6c9;
+    background-color: #fafffa;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .form-group select:focus {
+    box-shadow: 0 0 5px #81c784;
+    border-color: #81c784;
+    outline: none;
+  }
+
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  .btn:hover {
+    background-color: #388e3c;
+    transform: scale(1.02);
+  }
+
+  .alert-success {
+    max-width: 600px;
+    margin: 30px auto 0;
+    padding: 20px;
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border-left: 6px solid #4caf50;
+    border-radius: 8px;
+    animation: fadeIn 0.8s ease-in-out;
+    text-align: center;
+  }
+
+  .price-chart-container {
+    height: 30%;
+    width: 70%;
+    margin: 5% auto; /* Center the container horizontally */
+    background-color: #f9f9f9;
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the content horizontally */
+    justify-content: center; /* Center the content vertically */
+}
+
+.price-chart-container h3 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+#priceChart {
+    height: 200px; /* Adjust the height as needed */
+    width: 100%;    /* Make it 100% of the container width */
+}
+
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+</style>
+
+<div class="container">
+    <div class="first">
+  <h2><i class="fas fa-chart-line"></i> Predict Best Selling Day</h2>
+
+  <form method="post" action="{% url 'predict' %}" id="predict-form">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label for="{{ form.state.id_for_label }}">
+        <i class="fas fa-map-marker-alt"></i> {{ form.state.label }}
+      </label>
+      {{ form.state }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.district.id_for_label }}">
+        <i class="fas fa-location-arrow"></i> {{ form.district.label }}
+      </label>
+      {{ form.district }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.market.id_for_label }}">
+        <i class="fas fa-store-alt"></i> {{ form.market.label }}
+      </label>
+      {{ form.market }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.commodity.id_for_label }}">
+        <i class="fas fa-boxes"></i> {{ form.commodity.label }}
+      </label>
+      {{ form.commodity }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.variety.id_for_label }}">
+        <i class="fas fa-seedling"></i> {{ form.variety.label }}
+      </label>
+      {{ form.variety }}
+    </div>
+
+    <button type="submit" class="btn">
+      <i class="fas fa-magic"></i> Predict Best Selling Day
+    </button>
+  </form>
+
+</div>
+
+
+<div class="second">
+  {% if result %}
+    <div class="alert alert-success mt-4">
+      <h3><i class="fas fa-check-circle"></i> {{ result }}</h3>
+    </div>
+  {% endif %}
+  
+
+
+  <!-- Price prediction chart -->
+{% if result and graph_data %}
+<div class="price-chart-container mt-4">
+  <h3><i class="fas fa-chart-line"></i> Price Prediction (Next 30 Days)</h3>
+  <canvas id="priceChart"></canvas>
+</div>
+
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get graph data from Django template - properly handle the JSON
+    const graphData = JSON.parse('{{ graph_data|escapejs }}');
+    
+    if (graphData && graphData.length > 0) {
+      const ctx = document.getElementById('priceChart').getContext('2d');
+      
+      // Prepare data for Chart.js
+      const dates = graphData.map(item => item.date);
+      const prices = graphData.map(item => item.price);
+      
+      // Find the best day (maximum price)
+      const maxPrice = Math.max(...prices);
+      const maxPriceIndex = prices.indexOf(maxPrice);
+      
+      // Create the chart
+      const priceChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: dates,
+          datasets: [{
+            label: 'Predicted Price (Rs./Quintal)',
+            data: prices,
+            fill: false,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            tension: 0.1,
+            pointBackgroundColor: function(context) {
+              // Highlight the best day point
+              return context.dataIndex === maxPriceIndex ? 'red' : 'rgba(75, 192, 192, 1)';
+            },
+            pointRadius: function(context) {
+              // Make the best day point larger
+              return context.dataIndex === maxPriceIndex ? 8 : 4;
+            }
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Date'
+              },
+              ticks: {
+                maxRotation: 45,
+                minRotation: 45
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Price (Rs./Quintal)'
+              },
+              beginAtZero: false
+            }
+          },
+          plugins: {
+            tooltip: {
+              callbacks: {
+                title: function(tooltipItems) {
+                  return tooltipItems[0].label;
+                },
+                label: function(context) {
+                  const price = context.raw;
+                  return `₹${price.toFixed(2)}/Quintal`;
+                },
+                afterLabel: function(context) {
+                  const isMax = context.dataIndex === maxPriceIndex;
+                  return isMax ? '✅ Best day to sell!' : '';
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+  });
+</script>
+{% endif %}
+
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+        function populateDropdown(selectElement, data) {
+            while (selectElement.options.length > 1) {
+                selectElement.remove(1);
+            }
+            data.forEach(function(item) {
+                const option = document.createElement('option');
+                option.value = item;
+                option.textContent = item;
+                selectElement.appendChild(option);
+            });
+        }
+    
+        function clearDependentDropdowns(startIndex) {
+            const dropdowns = [
+                document.getElementById('id_district'),
+                document.getElementById('id_market'),
+                document.getElementById('id_commodity'),
+                document.getElementById('id_variety')
+            ];
+    
+            for (let i = startIndex; i < dropdowns.length; i++) {
+                while (dropdowns[i].options.length > 1) {
+                    dropdowns[i].remove(1);
+                }
+                dropdowns[i].selectedIndex = 0;
+            }
+        }
+    
+        document.getElementById('id_state').addEventListener('change', function() {
+            const state = this.value;
+            clearDependentDropdowns(0);
+    
+            if (state) {
+                fetch(`/ajax/districts/?state=${encodeURIComponent(state)}`, {
+                    headers: { 'X-CSRFToken': csrfToken }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    populateDropdown(document.getElementById('id_district'), data.districts);
+                })
+                .catch(error => {
+                    console.error('Error fetching districts:', error);
+                });
+            }
+        });
+    
+        document.getElementById('id_district').addEventListener('change', function() {
+            const state = document.getElementById('id_state').value;
+            const district = this.value;
+            clearDependentDropdowns(1);
+    
+            if (district) {
+                fetch(`/ajax/markets/?state=${encodeURIComponent(state)}&district=${encodeURIComponent(district)}`, {
+                    headers: { 'X-CSRFToken': csrfToken }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    populateDropdown(document.getElementById('id_market'), data.markets);
+                })
+                .catch(error => {
+                    console.error('Error fetching markets:', error);
+                });
+            }
+        });
+    
+        document.getElementById('id_market').addEventListener('change', function() {
+            const state = document.getElementById('id_state').value;
+            const district = document.getElementById('id_district').value;
+            const market = this.value;
+            clearDependentDropdowns(2);
+    
+            if (market) {
+                fetch(`/ajax/commodities/?state=${encodeURIComponent(state)}&district=${encodeURIComponent(district)}&market=${encodeURIComponent(market)}`, {
+                    headers: { 'X-CSRFToken': csrfToken }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    populateDropdown(document.getElementById('id_commodity'), data.commodities);
+                })
+                .catch(error => {
+                    console.error('Error fetching commodities:', error);
+                });
+            }
+        });
+    
+        document.getElementById('id_commodity').addEventListener('change', function() {
+            const state = document.getElementById('id_state').value;
+            const district = document.getElementById('id_district').value;
+            const market = document.getElementById('id_market').value;
+            const commodity = this.value;
+            clearDependentDropdowns(3);
+    
+            if (commodity) {
+                fetch(`/ajax/varieties/?state=${encodeURIComponent(state)}&district=${encodeURIComponent(district)}&market=${encodeURIComponent(market)}&commodity=${encodeURIComponent(commodity)}`, {
+                    headers: { 'X-CSRFToken': csrfToken }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    populateDropdown(document.getElementById('id_variety'), data.varieties);
+                })
+                .catch(error => {
+                    console.error('Error fetching varieties:', error);
+                });
+            }
+        });
+    });
+    </script>
+
+
+
+{% endblock %}

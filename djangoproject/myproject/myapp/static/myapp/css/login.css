@@ -27,15 +27,19 @@ header {
     z-index: 1000;
 }
 
+.logo{
+    width: 38%;
+}
+
 .logo img {
     height: 30px;
 }
 
 nav {
+    width: 73%;
     display: flex;
-    gap: 20px;
+    gap: 8%;
 }
-
 nav a {
     text-decoration: none;
     color: #444;
@@ -89,6 +93,7 @@ nav a:hover::after {
 }
 
 .auth-container input[type="text"],
+.auth-container input[type="email"],
 .auth-container input[type="password"] {
     width: 100%;
     padding: 0.8rem;
@@ -159,42 +164,33 @@ nav a:hover::after {
 
 
 
-/* Style for the dropdown container */
-.dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  
-  /* Style for the dropdown content (hidden by default) */
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    z-index: 1;
+
+
+.form-errors {
+    background-color: #ffe6e6;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ff9999;
     border-radius: 5px;
-    right: 0;
   }
   
-  /* Style for the links inside the dropdown */
-  .dropdown-content a {
-    color: black;
-    padding: 10px 12px;
-    text-decoration: none;
-    display: block;
+  .form-errors .error {
+    color: #d8000c;
+    font-size: 14px;
+    margin: 5px 0;
   }
   
-  /* Show the dropdown on hover */
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-  
-  /* Profile icon styling (optional) */
-  .profile-icon {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-  
+.error {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+}
+input {
+    margin-bottom: 5px;
+}
+
+input:invalid {
+    border-color: #ff5c5c;
+}
+
+
