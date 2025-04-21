@@ -1,6 +1,7 @@
-{% load static %} 
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,121 +9,210 @@
     <link rel="stylesheet" href="{% static 'myapp/css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(6px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 40px;
+            z-index: 1000;
+        }
         
-header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(6px);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 18px 40px;
-    z-index: 1000;
-}
-
-.logo{
-    width: 38%;
-}
-
-.logo img {
-    height: 30px;
-}
-
-nav {
-    width: 77%;
-    display: flex;
-    gap: 6%;
-}
-
-nav a {
-    text-decoration: none;
-    color: #444;
-    font-weight: 500;
-    position: relative;
-    transition: color 0.3s;
-}
-
-nav a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -5px;
-    left: 0;
-    background-color: #4CAF50;
-    transition: width 0.3s ease;
-}
-
-nav a:hover {
-    color: #2d7d2d;
-}
-
-nav a:hover::after {
-    width: 100%;
-}
-
-/* Add this new style to remove underlines from button links */
-.hero-content a {
-    text-decoration: none;
-}
-.profile-menu {
-        position: relative;
-        display: inline-block;
-    }
-    
-    .profile-icon {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        cursor: pointer;
-    }
-    
-    .dropdown {
-        display: none;
-        position: absolute;
-        top: 120%;
-        right: 0;
-        background-color: #fff;
-        min-width: 150px;
-        border-radius: 10px;
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-        z-index: 2000;
-        list-style: none;
-        padding: 10px 0;
-        transition: all 0.2s ease;
-    }
-    
-    .dropdown.show {
-        display: block;
-    }
-    
-    .dropdown li {
-        padding: 10px 20px;
-    }
-    
-    .dropdown li a {
-        color: #333;
-        text-decoration: none;
-        font-weight: 500;
-    }
-    
-    .dropdown li:hover {
-        background-color: #f2f2f2;
-    }
-    .product-card a {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    }
-
-    .product-card a:hover {
-        text-decoration: none;
-    }
-</style>
+        .logo {
+            /* Removed fixed width to allow natural sizing */
+            flex-shrink: 0;
+        }
+        
+        .logo img {
+            height: 30px;
+        }
+        
+        nav {
+            /* Modified to align items to the right */
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 30px;
+            margin-left: auto;
+            margin-right: 60px;
+            /* Added to move nav content to the left */
+            /* Pushes nav to the right */
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #444;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #4CAF50;
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover {
+            color: #2d7d2d;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .profile-menu {
+            position: relative;
+            display: inline-block;
+            margin-left: 20px;
+        }
+        
+        .profile-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .profile-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 120%;
+            right: 0;
+            background-color: #fff;
+            min-width: 150px;
+            border-radius: 10px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            z-index: 2000;
+            list-style: none;
+            padding: 10px 0;
+            transition: all 0.2s ease;
+        }
+        
+        .dropdown.show {
+            display: block;
+            animation: dropdownFade 0.3s ease forwards;
+        }
+        
+        @keyframes dropdownFade {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .dropdown li {
+            padding: 10px 20px;
+        }
+        
+        .dropdown li a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .dropdown li:hover {
+            background-color: #f2f2f2;
+        }
+        
+        .hero-content a {
+            text-decoration: none;
+        }
+        
+        .profile-menu {
+            position: relative;
+            display: inline-block;
+            margin-left: 5px;
+        }
+        
+        .profile-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .profile-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 120%;
+            right: 0;
+            background-color: #fff;
+            min-width: 150px;
+            border-radius: 10px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            z-index: 2000;
+            list-style: none;
+            padding: 10px 0;
+            transition: all 0.2s ease;
+        }
+        
+        .dropdown.show {
+            display: block;
+            animation: dropdownFade 0.3s ease forwards;
+        }
+        
+        @keyframes dropdownFade {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .dropdown li {
+            padding: 10px 20px;
+        }
+        
+        .dropdown li a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .dropdown li:hover {
+            background-color: #f2f2f2;
+        }
+        
+        .product-card a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .product-card a:hover {
+            text-decoration: none;
+        }
+    </style>
 </head>
+
 <body>
 
     <header>
@@ -135,486 +225,485 @@ nav a:hover::after {
             <a href="{% url 'rent_in' %}">Rent Tools</a>
             <a href="{% url 'crop_suggestion' %}">What to plant?</a>
             <a href="{% url 'predict' %}">When to sell?</a>
-            <a href="{% url 'view_cart' %}">Cart</a>
-            
-            
-            {% if user.is_authenticated %}
+            <a href="{% url 'view_cart' %}">Cart</a> {% if user.is_authenticated %}
             <div class="profile-menu" id="profileMenu">
-              <img src="{% static 'myapp/images/profile.png' %}" alt="Profile Icon" class="profile-icon" id="profileIcon">
-              <ul class="dropdown" id="dropdownMenu">
-                <li><a href="{% url 'sell' %}">Sell</a></li>
-                <li><a href="{% url 'rent_out' %}">Rent Out</a></li>
-                <li><a href="{% url 'listings' %}">My Listings</a></li>
-                <li><a href="{% url 'my_orders' %}">My Orders</a></li>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
-              </ul>
+                <img src="{% static 'myapp/images/profile.png' %}" alt="Profile Icon" class="profile-icon" id="profileIcon">
+                <ul class="dropdown" id="dropdownMenu">
+                    <li><a href="{% url 'sell' %}">Sell</a></li>
+                    <li><a href="{% url 'rent_out' %}">Rent Out</a></li>
+                    <li><a href="{% url 'listings' %}">My Listings</a></li>
+                    <li><a href="{% url 'my_orders' %}">My Orders</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                </ul>
             </div>
-          {% else %}
-            <a href="{% url 'login' %}">Login</a>
-          {% endif %}      
-    
-    
-    
+            {% else %}
+            <a href="{% url 'login' %}">Login</a> {% endif %}
         </nav>
     </header>
-    
-
-<!-- Hero Section -->
-<main class="snap-container">
-    <section class="hero snap-section" id="hero"> 
-    <div class="overlay"></div>
-    <div class="hero-content">
-        <h2>Empowering Farmers with AI <br> Rent, Buy, and Grow Smarter!</h2>
-        <a href="{% url 'rent_in' %}"><button>Rent Equipment Now</button></a>
-        <a href="{% url 'buy' %}"><button>Buy Tools or Products</button></a>
-    </div>
-</section>
-
-<!-- Categories Section -->
-<section class="categories snap-section" id="categories">
-    <h2>Browse by Category</h2>
-    <div class="category-grid">
-        <div class="category-card">
-            <img src="{% static 'myapp/images/sticker1.png' %}" alt="Rent Equipment">
-            <p>Rent Equipment</p>
-        </div>
-        <div class="category-card">
-            <img src="{% static 'myapp/images/sticker2.png' %}" alt="Farm Essentials">
-            <p>Farm Essentials</p>
-        </div>
-        <div class="category-card">
-            <img src="{% static 'myapp/images/sticker3.png' %}" alt="Buy Seeds & Fertilizers">
-            <p>Buy Seeds & Fertilizers</p>
-        </div>
-    </div>
-</section>
 
 
-<section class="about snap-section" id="about">
-    <h2 class="about-heading">About Us</h2>
-    <div class="about-sticker">
-        <div class="about-description">
-            <p>
-                
-                At SmartKisaan, we're on a mission to revolutionize the agricultural marketplace by empowering farmers with smart, AI-driven tools that simplify selling, improve profits, and connect them directly with buyers.<br>
-                
-                
-                We believe that technology should work for those who feed the world. That's why we’ve built a user-friendly app that supports farmers in making informed decisions, reducing waste, and maximizing their yields. Whether you’re a smallholder or a large producer, SmartKisaan gives you the power to sell smarter, faster, and more profitably.<br>
-                
-            </p>
-        </div>
-    </div>
-</section>
+    <!-- Hero Section -->
+    <main class="snap-container">
+        <section class="hero snap-section" id="hero">
+            <div class="overlay"></div>
+            <div class="hero-content">
+                <h2>Empowering Farmers with AI <br> Rent, Buy, and Grow Smarter!</h2>
+                <a href="{% url 'rent_in' %}"><button>Rent Equipment Now</button></a>
+                <a href="{% url 'buy' %}"><button>Buy Tools or Products</button></a>
+            </div>
+        </section>
 
-
-<!-- Products and Services Section -->
-<section class="products-services snap-section" id="products-services">
-    <h2>Products and Services</h2>
-    <div class="products-grid">
-        <div class="product-card">
-            <a href="{% url 'buy' %}">
-                <img src="{% static 'myapp/images/buysell.png' %}" alt="Product 1" class="product-sticker">
-                <h3>Buy & Sell</h3>
-                <p>Easily buy or sell new and used farming equipment in your area.</p>
-            </a>
-        </div>
-        <div class="product-card">
-            <a href="{% url 'rent_in' %}">
-                <img src="{% static 'myapp/images/rent.png' %}" alt="Product 2" class="product-sticker">
-                <h3>Rent</h3>
-                <p>Rent farming tools and machinery as per your needs and budget.</p>
-            </a>
-        </div>
-        <div class="product-card">
-            <a href="{% url 'crop_suggestion' %}">
-                <img src="{% static 'myapp/images/plant.png' %}" alt="Product 3" class="product-sticker">
-                <h3>What to Plant?</h3>
-                <p>Enter your location, season, and soil type to discover the best crops to grow.</p>
-            </a>
-        </div>
-        <div class="product-card">
-            <a href="{% url 'predict' %}">
-                <img src="{% static 'myapp/images/ai1.png' %}" alt="Product 4" class="product-sticker">
-                <h3>When to Sell?</h3>
-                <p>Our AI predicts the best time to sell your produce for maximum profit.</p>
-            </a>
-        </div>
-    </div>
-</section>
-
-
-<!-- HTML for Testimonials Section -->
-<section class="testimonials snap-section" id="testimonials">
-    <h2>Testimonials</h2>
-    
-    <div class="testimonial-carousel">
-        <div class="testimonial-container">
-            <!-- First testimonial -->
-            <div class="testimonial-card left-card">
-                <div class="testimonial-photo">
-                    <img src="{% static 'myapp/images/farmer.jpg' %}" alt="Maria Menounos">
+        <!-- Categories Section -->
+        <section class="categories snap-section" id="categories">
+            <h2>Browse by Category</h2>
+            <div class="category-grid">
+                <div class="category-card">
+                    <img src="{% static 'myapp/images/sticker1.png' %}" alt="Rent Equipment">
+                    <p>Rent Equipment</p>
                 </div>
-                <div class="testimonial-content">
-                    <h3>– Ramesh Singh, Wheat Farmer, Punjab</h3>
-                    <p class="testimonial-text">
-                        "Earlier, I used to sell my crops to the local trader at whatever price he said. But now, with this app, I can see real-time prices from multiple markets. I sold my wheat for 18% more this season. Thank you for empowering small farmers like me!" </p>
+                <div class="category-card">
+                    <img src="{% static 'myapp/images/sticker2.png' %}" alt="Farm Essentials">
+                    <p>Farm Essentials</p>
+                </div>
+                <div class="category-card">
+                    <img src="{% static 'myapp/images/sticker3.png' %}" alt="Buy Seeds & Fertilizers">
+                    <p>Buy Seeds & Fertilizers</p>
                 </div>
             </div>
-            
-            <!-- Second testimonial (center/active) -->
-            <div class="testimonial-card center-card active">
-                <div class="testimonial-photo">
-                    <img src="{% static 'myapp/images/farmer2.webp' %}" alt="Serena Williams">
-                </div>
-                <div class="testimonial-content">
-                    <h3>– Meera Devi, Organic Farmer, Maharashtra</h3>
-                    <p class="testimonial-text">
-                        "I found bulk buyers for my organic produce directly through the app. No middlemen, better prices, and faster payments. It’s a game-changer for us!"</p>
-                </div>
-            </div>
-            
-            <!-- Third testimonial -->
-            <div class="testimonial-card right-card">
-                <div class="testimonial-photo">
-                    <img src="{% static 'myapp/images/farmer3.jpg' %}" alt="Marc Benioff">
-                </div>
-                <div class="testimonial-content">
-                    <h3>– Rajiv Yadav, Paddy Farmer, Bihar</h3>
-                    <p class="testimonial-text">
-                        "The app told me early signs of pest attack on my paddy crop. I acted on time and saved almost 70% of the harvest. This AI really works!"</p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Navigation dots -->
-        <div class="testimonial-dots">
-            <span class="dot" data-index="0"></span>
-            <span class="dot active" data-index="1"></span>
-            <span class="dot" data-index="2"></span>
-        </div>
-    </div>
-</section>
+        </section>
 
 
-<!-- Footer Section -->
-<footer class="footer snap-section" id="footer">
-    <div class="footer-container">
-        <!-- Quick Links -->
-        <div class="footer-column">
-            <h3>Quick Links</h3>
-            <ul>
-                <li><a href="/#hero">Home</a></li>
-                <li><a href="/#about">About Us</a></li>
-                <li><a href="/#products-services">Features</a></li>
-                <li><a href="/#testimonials">Testimonials</a></li>
-                <li><a href="#">Contact Us</a></li>
-                <li><a href="#">FAQ</a></li>
-            </ul>
-        </div>
-        
-        <!-- Contact Information -->
-        <div class="footer-column">
-            <h3>Contact Information</h3>
-            <ul>
-                <li>📞 Phone: +91-1234567889</li>
-                <li>📧 Email: support@smartmarketapp.com</li>
-                <li>🏠 Address: Smart Market Innovations Pvt Ltd, Bangalore, India</li>
-            </ul>
-        </div>
-        
-        <!-- Social Media Links -->
-        <div class="footer-column">
-            <h3>Follow Us</h3>
-            <div class="social-links">
-                <a href="https://facebook.com/smartmarket" class="social-icon">
-                    <i class="fab fa-facebook"></i> Facebook
-                </a>
-                <a href="https://youtube.com/smartmarket" class="social-icon">
-                    <i class="fab fa-youtube"></i> YouTube
-                </a>
-                <a href="https://instagram.com/smartmarket" class="social-icon">
-                    <i class="fab fa-instagram"></i> Instagram
-                </a>
-                <a href="https://linkedin.com/company/smartmarket" class="social-icon">
-                    <i class="fab fa-linkedin"></i> LinkedIn
-                </a>
+        <section class="about snap-section" id="about">
+            <h2 class="about-heading">About Us</h2>
+            <div class="about-sticker">
+                <div class="about-description">
+                    <p>
+
+                        At SmartKisaan, we're on a mission to revolutionize the agricultural marketplace by empowering farmers with smart, AI-driven tools that simplify selling, improve profits, and connect them directly with buyers.<br> We believe that
+                        technology should work for those who feed the world. That's why we've built a user-friendly app that supports farmers in making informed decisions, reducing waste, and maximizing their yields. Whether you're a smallholder or a
+                        large producer, SmartKisaan gives you the power to sell smarter, faster, and more profitably.<br>
+
+                    </p>
+                </div>
             </div>
-        </div>
-        
-        <!-- App Download Section -->
-        <div class="footer-column">
-            <h3>Download the App</h3>
-            <p>📲 Get Smart Market App today!</p>
-            <div class="app-download-buttons">
-                <a href="#" class="download-btn">
-                    <img src="{% static 'myapp/images/google.png' %}" alt="Google Play Store">
-                </a>
-                <a href="#" class="download-btn">
-                    <img src="{% static 'myapp/images/appstore.png' %}" alt="Apple App Store">
-                </a>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Legal Links -->
-    <div class="footer-legal">
-        <div class="legal-links">
-            <a href="#">Terms & Conditions</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Refund & Cancellation Policy</a>
-        </div>
-        <div class="copyright">
-            Empowering Farmers with AI | © 2025 Smart Market App. All Rights Reserved.
-        </div>
-    </div>
-</footer>
+        </section>
 
 
-</main>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const sections = document.querySelectorAll('.snap-section');
-        const snapContainer = document.querySelector('.snap-container');
-        const heroContent = document.querySelector('.hero-content');
-        const heroBackground = document.querySelector('.hero');
-        const heroOverlay = document.querySelector('.overlay');
-        const header = document.querySelector('header');
-        const categoriesHeading = document.querySelector('.categories h2');
-        const categoryCards = document.querySelectorAll('.category-card');
-        const productsSection = document.querySelector('#products-services');
-        const productsHeading = productsSection.querySelector('h2');
-        const productCards = productsSection.querySelectorAll('.product-card');
-        const profileIcon = document.getElementById('profileIcon');
-        const dropdownMenu = document.getElementById('dropdownMenu');
-    
-        let isScrolling = false;
-        let currentSectionIndex = 0;
-    
-        function resetHeroElements() {
-            heroBackground.style.transition = 'none';
-            heroOverlay.style.transition = 'none';
-            heroContent.style.transition = 'none';
-            heroBackground.style.opacity = '0';
-            heroOverlay.style.opacity = '0';
-            heroContent.style.opacity = '0';
-            heroContent.style.transform = 'translateX(-100px)';
-            void heroBackground.offsetWidth;
-        }
-    
-        function animateHeroSection() {
-            resetHeroElements();
-            setTimeout(() => {
-                heroBackground.style.transition = 'opacity 1s ease-out';
-                heroOverlay.style.transition = 'opacity 1s ease-out';
-                heroBackground.style.opacity = '1';
-                heroOverlay.style.opacity = '1';
+        <!-- Products and Services Section -->
+        <section class="products-services snap-section" id="products-services">
+            <h2>Products and Services</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <a href="{% url 'buy' %}">
+                        <img src="{% static 'myapp/images/buysell.png' %}" alt="Product 1" class="product-sticker">
+                        <h3>Buy & Sell</h3>
+                        <p>Easily buy or sell new and used farming equipment in your area.</p>
+                    </a>
+                </div>
+                <div class="product-card">
+                    <a href="{% url 'rent_in' %}">
+                        <img src="{% static 'myapp/images/rent.png' %}" alt="Product 2" class="product-sticker">
+                        <h3>Rent</h3>
+                        <p>Rent farming tools and machinery as per your needs and budget.</p>
+                    </a>
+                </div>
+                <div class="product-card">
+                    <a href="{% url 'crop_suggestion' %}">
+                        <img src="{% static 'myapp/images/plant.png' %}" alt="Product 3" class="product-sticker">
+                        <h3>What to Plant?</h3>
+                        <p>Enter your location, season, and soil type to discover the best crops to grow.</p>
+                    </a>
+                </div>
+                <div class="product-card">
+                    <a href="{% url 'predict' %}">
+                        <img src="{% static 'myapp/images/ai1.png' %}" alt="Product 4" class="product-sticker">
+                        <h3>When to Sell?</h3>
+                        <p>Our AI predicts the best time to sell your produce for maximum profit.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- HTML for Testimonials Section -->
+        <section class="testimonials snap-section" id="testimonials">
+            <h2>Testimonials</h2>
+
+            <div class="testimonial-carousel">
+                <div class="testimonial-container">
+                    <!-- First testimonial -->
+                    <div class="testimonial-card left-card">
+                        <div class="testimonial-photo">
+                            <img src="{% static 'myapp/images/farmer.jpg' %}" alt="Maria Menounos">
+                        </div>
+                        <div class="testimonial-content">
+                            <h3>– Ramesh Singh, Wheat Farmer, Punjab</h3>
+                            <p class="testimonial-text">
+                                "Earlier, I used to sell my crops to the local trader at whatever price he said. But now, with this app, I can see real-time prices from multiple markets. I sold my wheat for 18% more this season. Thank you for empowering small farmers like me!" </p>
+                        </div>
+                    </div>
+
+                    <!-- Second testimonial (center/active) -->
+                    <div class="testimonial-card center-card active">
+                        <div class="testimonial-photo">
+                            <img src="{% static 'myapp/images/farmer2.webp' %}" alt="Serena Williams">
+                        </div>
+                        <div class="testimonial-content">
+                            <h3>– Meera Devi, Organic Farmer, Maharashtra</h3>
+                            <p class="testimonial-text">
+                                "I found bulk buyers for my organic produce directly through the app. No middlemen, better prices, and faster payments. It's a game-changer for us!"</p>
+                        </div>
+                    </div>
+
+                    <!-- Third testimonial -->
+                    <div class="testimonial-card right-card">
+                        <div class="testimonial-photo">
+                            <img src="{% static 'myapp/images/farmer3.jpg' %}" alt="Marc Benioff">
+                        </div>
+                        <div class="testimonial-content">
+                            <h3>– Rajiv Yadav, Paddy Farmer, Bihar</h3>
+                            <p class="testimonial-text">
+                                "The app told me early signs of pest attack on my paddy crop. I acted on time and saved almost 70% of the harvest. This AI really works!"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation dots -->
+                <div class="testimonial-dots">
+                    <span class="dot" data-index="0"></span>
+                    <span class="dot active" data-index="1"></span>
+                    <span class="dot" data-index="2"></span>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Footer Section -->
+        <footer class="footer snap-section" id="footer">
+            <div class="footer-container">
+                <!-- Quick Links -->
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="/#hero">Home</a></li>
+                        <li><a href="/#about">About Us</a></li>
+                        <li><a href="/#products-services">Features</a></li>
+                        <li><a href="/#testimonials">Testimonials</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="footer-column">
+                    <h3>Contact Information</h3>
+                    <ul>
+                        <li>📞 Phone: +91-1234567889</li>
+                        <li>📧 Email: support@smartmarketapp.com</li>
+                        <li>🏠 Address: Smart Market Innovations Pvt Ltd, Bangalore, India</li>
+                    </ul>
+                </div>
+
+                <!-- Social Media Links -->
+                <div class="footer-column">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="https://facebook.com/smartmarket" class="social-icon">
+                            <i class="fab fa-facebook"></i> Facebook
+                        </a>
+                        <a href="https://youtube.com/smartmarket" class="social-icon">
+                            <i class="fab fa-youtube"></i> YouTube
+                        </a>
+                        <a href="https://instagram.com/smartmarket" class="social-icon">
+                            <i class="fab fa-instagram"></i> Instagram
+                        </a>
+                        <a href="https://linkedin.com/company/smartmarket" class="social-icon">
+                            <i class="fab fa-linkedin"></i> LinkedIn
+                        </a>
+                    </div>
+                </div>
+
+                <!-- App Download Section -->
+                <div class="footer-column">
+                    <h3>Download the App</h3>
+                    <p>📲 Get Smart Market App today!</p>
+                    <div class="app-download-buttons">
+                        <a href="#" class="download-btn">
+                            <img src="{% static 'myapp/images/google.png' %}" alt="Google Play Store">
+                        </a>
+                        <a href="#" class="download-btn">
+                            <img src="{% static 'myapp/images/appstore.png' %}" alt="Apple App Store">
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Legal Links -->
+            <div class="footer-legal">
+                <div class="legal-links">
+                    <a href="#">Terms & Conditions</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Refund & Cancellation Policy</a>
+                </div>
+                <div class="copyright">
+                    Empowering Farmers with AI | © 2025 Smart Market App. All Rights Reserved.
+                </div>
+            </div>
+        </footer>
+
+
+    </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const sections = document.querySelectorAll('.snap-section');
+            const snapContainer = document.querySelector('.snap-container');
+            const heroContent = document.querySelector('.hero-content');
+            const heroBackground = document.querySelector('.hero');
+            const heroOverlay = document.querySelector('.overlay');
+            const header = document.querySelector('header');
+            const categoriesHeading = document.querySelector('.categories h2');
+            const categoryCards = document.querySelectorAll('.category-card');
+            const productsSection = document.querySelector('#products-services');
+            const productsHeading = productsSection.querySelector('h2');
+            const productCards = productsSection.querySelectorAll('.product-card');
+            const profileIcon = document.getElementById('profileIcon');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+
+            let isScrolling = false;
+            let currentSectionIndex = 0;
+
+            function resetHeroElements() {
+                heroBackground.style.transition = 'none';
+                heroOverlay.style.transition = 'none';
+                heroContent.style.transition = 'none';
+                heroBackground.style.opacity = '0';
+                heroOverlay.style.opacity = '0';
+                heroContent.style.opacity = '0';
+                heroContent.style.transform = 'translateX(-100px)';
+                void heroBackground.offsetWidth;
+            }
+
+            function animateHeroSection() {
+                resetHeroElements();
                 setTimeout(() => {
-                    heroContent.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
-                    heroContent.style.opacity = '1';
-                    heroContent.style.transform = 'translateX(0)';
-                }, 300);
-            }, 50);
-        }
-    
-        function resetCategoriesElements() {
-            categoriesHeading.style.transition = 'none';
-            categoryCards.forEach(card => {
-                card.style.transition = 'none';
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(50px)';
-            });
-            categoriesHeading.style.opacity = '0';
-            void categoriesHeading.offsetWidth;
-        }
-    
-        function animateCategoriesSection() {
-            resetCategoriesElements();
-            setTimeout(() => {
-                categoriesHeading.style.transition = 'opacity 1s ease-out';
-                categoriesHeading.style.opacity = '1';
-                categoryCards.forEach((card, index) => {
+                    heroBackground.style.transition = 'opacity 1s ease-out';
+                    heroOverlay.style.transition = 'opacity 1s ease-out';
+                    heroBackground.style.opacity = '1';
+                    heroOverlay.style.opacity = '1';
                     setTimeout(() => {
-                        card.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, 300 + (index * 150));
+                        heroContent.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                        heroContent.style.opacity = '1';
+                        heroContent.style.transform = 'translateX(0)';
+                    }, 300);
+                }, 50);
+            }
+
+            function resetCategoriesElements() {
+                categoriesHeading.style.transition = 'none';
+                categoryCards.forEach(card => {
+                    card.style.transition = 'none';
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(50px)';
                 });
-            }, 50);
-        }
-    
-        function resetProductsElements() {
-            productsHeading.style.transition = 'none';
-            productsHeading.style.opacity = '0';
-            productCards.forEach(card => {
-                card.style.transition = 'none';
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-            });
-            void productsHeading.offsetWidth;
-        }
-    
-        function animateProductsSection() {
-            resetProductsElements();
-            setTimeout(() => {
-                productsHeading.style.transition = 'opacity 1s ease-out';
-                productsHeading.style.opacity = '1';
-                productCards.forEach((card, index) => {
-                    setTimeout(() => {
-                        card.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
+                categoriesHeading.style.opacity = '0';
+                void categoriesHeading.offsetWidth;
+            }
+
+            function animateCategoriesSection() {
+                resetCategoriesElements();
+                setTimeout(() => {
+                    categoriesHeading.style.transition = 'opacity 1s ease-out';
+                    categoriesHeading.style.opacity = '1';
+                    categoryCards.forEach((card, index) => {
                         setTimeout(() => {
-                            card.style.transform = '';
-                            card.style.transition = '';
-                        }, 800);
-                    }, 300 + (index * 150));
+                            card.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 300 + (index * 150));
+                    });
+                }, 50);
+            }
+
+            function resetProductsElements() {
+                productsHeading.style.transition = 'none';
+                productsHeading.style.opacity = '0';
+                productCards.forEach(card => {
+                    card.style.transition = 'none';
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
                 });
-            }, 50);
-        }
-    
-        function runSectionAnimations(index) {
-            if (index === 0) {
-                animateHeroSection();
-            } else if (index === 1) {
-                animateCategoriesSection();
-            } else if (index === 3) {
-                animateProductsSection();
+                void productsHeading.offsetWidth;
             }
-        }
-    
-        function scrollToSection(index) {
-            if (isScrolling) return;
-            isScrolling = true;
-            currentSectionIndex = Math.max(0, Math.min(index, sections.length - 1));
-            sections[currentSectionIndex].scrollIntoView({ behavior: 'smooth' });
-            runSectionAnimations(currentSectionIndex);
-            setTimeout(() => {
-                isScrolling = false;
-            }, 800);
-        }
-    
-        snapContainer.addEventListener('wheel', function (e) {
-            if (isScrolling) {
-                e.preventDefault();
-                return;
+
+            function animateProductsSection() {
+                resetProductsElements();
+                setTimeout(() => {
+                    productsHeading.style.transition = 'opacity 1s ease-out';
+                    productsHeading.style.opacity = '1';
+                    productCards.forEach((card, index) => {
+                        setTimeout(() => {
+                            card.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                            setTimeout(() => {
+                                card.style.transform = '';
+                                card.style.transition = '';
+                            }, 800);
+                        }, 300 + (index * 150));
+                    });
+                }, 50);
             }
-            e.preventDefault();
-            if (e.deltaY > 0 && currentSectionIndex < sections.length - 1) {
-                scrollToSection(currentSectionIndex + 1);
-            } else if (e.deltaY < 0 && currentSectionIndex > 0) {
-                scrollToSection(currentSectionIndex - 1);
+
+            function runSectionAnimations(index) {
+                if (index === 0) {
+                    animateHeroSection();
+                } else if (index === 1) {
+                    animateCategoriesSection();
+                } else if (index === 3) {
+                    animateProductsSection();
+                }
             }
-        }, { passive: false });
-    
-        document.addEventListener('keydown', function (e) {
-            if (isScrolling) return;
-            if (e.key === 'ArrowDown' && currentSectionIndex < sections.length - 1) {
-                e.preventDefault();
-                scrollToSection(currentSectionIndex + 1);
-            } else if (e.key === 'ArrowUp' && currentSectionIndex > 0) {
-                e.preventDefault();
-                scrollToSection(currentSectionIndex - 1);
+
+            function scrollToSection(index) {
+                if (isScrolling) return;
+                isScrolling = true;
+                currentSectionIndex = Math.max(0, Math.min(index, sections.length - 1));
+                sections[currentSectionIndex].scrollIntoView({
+                    behavior: 'smooth'
+                });
+                runSectionAnimations(currentSectionIndex);
+                setTimeout(() => {
+                    isScrolling = false;
+                }, 800);
             }
-        });
-    
-        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+
+            snapContainer.addEventListener('wheel', function(e) {
+                if (isScrolling) {
+                    e.preventDefault();
+                    return;
+                }
                 e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                const targetSection = document.getElementById(targetId);
-                if (targetSection) {
-                    const index = Array.from(sections).indexOf(targetSection);
-                    if (index >= 0) {
-                        scrollToSection(index);
+                if (e.deltaY > 0 && currentSectionIndex < sections.length - 1) {
+                    scrollToSection(currentSectionIndex + 1);
+                } else if (e.deltaY < 0 && currentSectionIndex > 0) {
+                    scrollToSection(currentSectionIndex - 1);
+                }
+            }, {
+                passive: false
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (isScrolling) return;
+                if (e.key === 'ArrowDown' && currentSectionIndex < sections.length - 1) {
+                    e.preventDefault();
+                    scrollToSection(currentSectionIndex + 1);
+                } else if (e.key === 'ArrowUp' && currentSectionIndex > 0) {
+                    e.preventDefault();
+                    scrollToSection(currentSectionIndex - 1);
+                }
+            });
+
+            document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        const index = Array.from(sections).indexOf(targetSection);
+                        if (index >= 0) {
+                            scrollToSection(index);
+                        }
                     }
-                }
-            });
-        });
-    
-        // Animate About Section
-        const aboutSection = document.querySelector('.about');
-        const heading = aboutSection.querySelector('.about-heading');
-        const sticker = aboutSection.querySelector('.about-sticker');
-        const description = aboutSection.querySelector('.about-description');
-    
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    heading.classList.remove('heading-slide-in');
-                    sticker.classList.remove('sticker-fade-in');
-                    description.classList.remove('description-fade-in');
-                    void heading.offsetWidth;
-                    void sticker.offsetWidth;
-                    void description.offsetWidth;
-                    heading.classList.add('heading-slide-in');
-                    sticker.classList.add('sticker-fade-in');
-                    description.classList.add('description-fade-in');
-                }
-            });
-        }, { threshold: 0.3 });
-    
-        observer.observe(aboutSection);
-    
-        // =======================
-        // Testimonial Auto-Rotate
-        // =======================
-        const testimonialCards = document.querySelectorAll(".testimonial-card");
-        const dots = document.querySelectorAll(".dot");
-        let currentTestimonialIndex = 1;
-    
-        function updateTestimonials(index) {
-            testimonialCards.forEach((card, i) => {
-                card.classList.remove("left-card", "center-card", "right-card", "active");
-                dots[i].classList.remove("active");
-    
-                if (i === index) {
-                    card.classList.add("center-card", "active");
-                } else if (i === (index - 1 + testimonialCards.length) % testimonialCards.length) {
-                    card.classList.add("left-card");
-                } else if (i === (index + 1) % testimonialCards.length) {
-                    card.classList.add("right-card");
-                }
-            });
-            dots[index].classList.add("active");
-        }
-    
-        function rotateTestimonials() {
-            currentTestimonialIndex = (currentTestimonialIndex + 1) % testimonialCards.length;
-            updateTestimonials(currentTestimonialIndex);
-        }
-    
-        if (testimonialCards.length > 0) {
-            updateTestimonials(currentTestimonialIndex); // Initial setup
-            setInterval(rotateTestimonials, 5000); // Auto-rotate every 5 seconds
-    
-            // Optional: Allow manual dot click navigation
-            dots.forEach(dot => {
-                dot.addEventListener("click", () => {
-                    currentTestimonialIndex = parseInt(dot.dataset.index);
-                    updateTestimonials(currentTestimonialIndex);
                 });
             });
-        }
-    
-        // Initial animation
-        runSectionAnimations(0);
 
+            // Animate About Section
+            const aboutSection = document.querySelector('.about');
+            const heading = aboutSection.querySelector('.about-heading');
+            const sticker = aboutSection.querySelector('.about-sticker');
+            const description = aboutSection.querySelector('.about-description');
 
-        profileIcon.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent event from reaching document
-            dropdownMenu.classList.toggle('show');
-          });
-      
-          // Hide dropdown if clicked outside
-          document.addEventListener('click', (e) => {
-            if (!document.getElementById('profileMenu').contains(e.target)) {
-              dropdownMenu.classList.remove('show');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        heading.classList.remove('heading-slide-in');
+                        sticker.classList.remove('sticker-fade-in');
+                        description.classList.remove('description-fade-in');
+                        void heading.offsetWidth;
+                        void sticker.offsetWidth;
+                        void description.offsetWidth;
+                        heading.classList.add('heading-slide-in');
+                        sticker.classList.add('sticker-fade-in');
+                        description.classList.add('description-fade-in');
+                    }
+                });
+            }, {
+                threshold: 0.3
+            });
+
+            observer.observe(aboutSection);
+
+            // =======================
+            // Testimonial Auto-Rotate
+            // =======================
+            const testimonialCards = document.querySelectorAll(".testimonial-card");
+            const dots = document.querySelectorAll(".dot");
+            let currentTestimonialIndex = 1;
+
+            function updateTestimonials(index) {
+                testimonialCards.forEach((card, i) => {
+                    card.classList.remove("left-card", "center-card", "right-card", "active");
+                    dots[i].classList.remove("active");
+
+                    if (i === index) {
+                        card.classList.add("center-card", "active");
+                    } else if (i === (index - 1 + testimonialCards.length) % testimonialCards.length) {
+                        card.classList.add("left-card");
+                    } else if (i === (index + 1) % testimonialCards.length) {
+                        card.classList.add("right-card");
+                    }
+                });
+                dots[index].classList.add("active");
             }
-          });
+
+            function rotateTestimonials() {
+                currentTestimonialIndex = (currentTestimonialIndex + 1) % testimonialCards.length;
+                updateTestimonials(currentTestimonialIndex);
+            }
+
+            if (testimonialCards.length > 0) {
+                updateTestimonials(currentTestimonialIndex); // Initial setup
+                setInterval(rotateTestimonials, 5000); // Auto-rotate every 5 seconds
+
+                // Optional: Allow manual dot click navigation
+                dots.forEach(dot => {
+                    dot.addEventListener("click", () => {
+                        currentTestimonialIndex = parseInt(dot.dataset.index);
+                        updateTestimonials(currentTestimonialIndex);
+                    });
+                });
+            }
+
+            // Initial animation
+            runSectionAnimations(0);
+
+
+            profileIcon.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent event from reaching document
+                dropdownMenu.classList.toggle('show');
+            });
+
+            // Hide dropdown if clicked outside
+            document.addEventListener('click', (e) => {
+                if (!document.getElementById('profileMenu').contains(e.target)) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
         });
     </script>
-    
-    
+
+
 
 </body>
+
 </html>
